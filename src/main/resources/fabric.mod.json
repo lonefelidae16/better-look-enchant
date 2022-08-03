@@ -1,38 +1,35 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "betterlookenchant",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Better Look Enchant",
+  "description": "",
   "authors": [
-    "Me!"
+    "lonefelidae16"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/betterlookenchant/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
-    "main": [
-      "net.fabricmc.example.ExampleMod"
+    "client": [
+      "me.lonefelidae16.betterlookenchant.BetterLookEnchantClient"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "betterlookenchant.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.9",
-    "fabric-api": "*",
-    "minecraft": "~1.19",
+    "fabricloader": ">=0.11.0",
+    "fabric": "*",
+    "minecraft": "1.19.x",
     "java": ">=17"
   },
   "suggests": {
-    "another-mod": "*"
   }
 }

@@ -6,5 +6,9 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven {
+            name = 'Gradle Plugins'
+            url = 'https://plugins.gradle.org/m2/'
+        }
     }
 }

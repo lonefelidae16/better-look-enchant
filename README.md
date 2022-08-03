@@ -1,9 +1,9 @@
-# Fabric Example Mod
+# Better Look Enchant
 
-## Setup
+Better Look Enchant is client-side mod that clarify your enchantment level is maximum or not.
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+When the level is maximum, the color of the enchantment is changed.
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This project is available under the CC0 license.
