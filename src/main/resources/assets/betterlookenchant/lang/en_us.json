@@ -1,0 +1,17 @@
+{
+  "text.betterlookenchant.config.title": "Better Look Enchant Config",
+  "text.betterlookenchant.config.key.default_format": "Default Enchant Format",
+  "text.betterlookenchant.config.key.lv_max_format": "Level Max Enchant Format",
+  "text.betterlookenchant.config.key.add_new": "New...",
+  "text.betterlookenchant.config.key.save": "Save Settings",
+  "text.betterlookenchant.config.key.restore_default": "RESTORE DEFAULT",
+  "text.betterlookenchant.config.restore.title": "Better Look Enchant Config | Restore Default",
+  "text.betterlookenchant.config.restore.confirmation": "This operation cannot be undone.\nAre you ABSOLUTELY sure?",
+  "text.betterlookenchant.config.key.remove": "×",
+  "text.betterlookenchant.config.key.remove_tooltip": "Remove Permanently",
+  "text.betterlookenchant.config.choose.title": "Pick an Enchant",
+  "text.betterlookenchant.config.key.bold": "Bold",
+  "text.betterlookenchant.config.key.italic": "Italic",
+  "text.betterlookenchant.config.key.underline": "Underline",
+  "text.betterlookenchant.config.key.strike": "Strike"
+}

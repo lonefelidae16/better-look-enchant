@@ -9,6 +9,8 @@
     "lonefelidae16"
   ],
   "contact": {
+    "sources": "https://github.com/lonefelidae16/better-look-enchant",
+    "issues": "https://github.com/lonefelidae16/better-look-enchant/issues"
   },
 
   "license": "CC0-1.0",
@@ -18,16 +20,19 @@
   "entrypoints": {
     "client": [
       "me.lonefelidae16.betterlookenchant.BetterLookEnchantClient"
+    ],
+    "modmenu": [
+      "me.lonefelidae16.betterlookenchant.compat.modmenu.BetterLookEnchantModMenu"
     ]
   },
   "mixins": [
-    "betterlookenchant.mixins.json"
+    "betterlookenchant.mixins.json",
+    "betterlookenchant.compat.modmenu.mixins.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.11.0",
-    "fabric": "*",
-    "minecraft": "1.19.x",
+    "minecraft": ">=1.19.1",
     "java": ">=17"
   },
   "suggests": {

@@ -1,7 +1,7 @@
 plugins {
-	id 'fabric-loom' version '0.12-SNAPSHOT'
-	id 'maven-publish'
-	id 'com.jfrog.artifactory' version '4.+'
+    id 'fabric-loom' version '0.12-SNAPSHOT'
+    id 'maven-publish'
+    id 'com.jfrog.artifactory' version '4.+'
 }
 
 apply from: 'https://gitlab.kow08absty.com/-/snippets/1/raw/main/properties-reader.gradle'
@@ -14,93 +14,104 @@ version = "${project.mod_version}+${minecraft_version}" as Object
 group = project.maven_group
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+    // Add repositories to retrieve artifacts from in here.
+    // You should only use this when depending on other mods because
+    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+    // for more information about repositories.
+    maven {
+        name "modrinth"
+        url "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = 'TerraformersMC'
+        url = 'https://maven.terraformersmc.com/'
+    }
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    // To change the versions see the gradle.properties file
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	//modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    // Fabric API. This is technically optional, but you probably want it anyway.
+    //modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// Uncomment the following line to enable the deprecated Fabric API modules. 
-	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
+    // Uncomment the following line to enable the deprecated Fabric API modules.
+    // These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
-	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
+    // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
+
+    modCompileOnly "com.terraformersmc:modmenu:${mod_menu_version}"
+    modRuntimeOnly "com.terraformersmc:modmenu:${mod_menu_version}"
 }
 
 processResources {
-	inputs.property "version", project.version
+    inputs.property "version", project.version
 
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-	it.options.release = 17
+    // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+    it.options.release = 17
 }
 
 java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
-	withSourcesJar()
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
 }
 
 jar {
-	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
-	}
-	exclude("**/*.xcf")
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+    exclude("**/*.xcf")
 }
 
 // configure the maven publication
 publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-			artifactId = archivesBaseName
-		}
-	}
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = archivesBaseName
+        }
+    }
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
-	}
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
 }
 
 artifactory {
-	contextUrl = 'https://artifactory.kow08absty.com/artifactory'
+    contextUrl = 'https://artifactory.kow08absty.com/artifactory'
 
-	publish {
-		repository {
-			// The Artifactory repository key to publish to
-			repoKey = project.localProperties.get('artifactory_repo_key')
-			username = project.localProperties.get('artifactory_user')
-			password = project.localProperties.get('artifactory_password')
-			maven = true
-		}
-		defaults {
-			// Tell the Artifactory Plugin which artifacts should be published to Artifactory.
-			publications('mavenJava')
-			publishArtifacts = true
-			publishPom = true
-			publishBuildInfo = false
+    publish {
+        repository {
+            // The Artifactory repository key to publish to
+            repoKey = project.localProperties.get('artifactory_repo_key')
+            username = project.localProperties.get('artifactory_user')
+            password = project.localProperties.get('artifactory_password')
+            maven = true
+        }
+        defaults {
+            // Tell the Artifactory Plugin which artifacts should be published to Artifactory.
+            publications('mavenJava')
+            publishArtifacts = true
+            publishPom = true
+            publishBuildInfo = false
 
-			// Properties to be attached to the published artifacts.
-			properties = ['qa.level': 'basic', 'dev.team': 'core']
-		}
-	}
+            // Properties to be attached to the published artifacts.
+            properties = ['qa.level': 'basic', 'dev.team': 'core']
+        }
+    }
 }

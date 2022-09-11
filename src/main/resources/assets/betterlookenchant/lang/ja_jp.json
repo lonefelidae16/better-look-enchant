@@ -1,0 +1,16 @@
+{
+  "text.betterlookenchant.config.title": "Better Look Enchant 設定",
+  "text.betterlookenchant.config.key.default_format": "通常フォーマット",
+  "text.betterlookenchant.config.key.lv_max_format": "レベル最大時",
+  "text.betterlookenchant.config.key.add_new": "新規...",
+  "text.betterlookenchant.config.key.save": "設定を保存",
+  "text.betterlookenchant.config.key.restore_default": "初期化",
+  "text.betterlookenchant.config.restore.title": "Better Look Enchant 設定 | 初期化",
+  "text.betterlookenchant.config.restore.confirmation": "その操作はもとに戻せません。\n本当に実行しますか？",
+  "text.betterlookenchant.config.key.remove_tooltip": "一覧から削除",
+  "text.betterlookenchant.config.choose.title": "エンチャントを選択",
+  "text.betterlookenchant.config.key.bold": "太字",
+  "text.betterlookenchant.config.key.italic": "斜体",
+  "text.betterlookenchant.config.key.underline": "下線",
+  "text.betterlookenchant.config.key.strike": "打消し線"
+}
