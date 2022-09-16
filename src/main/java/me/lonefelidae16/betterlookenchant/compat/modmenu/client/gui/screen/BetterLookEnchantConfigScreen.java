@@ -65,6 +65,7 @@ public class BetterLookEnchantConfigScreen extends Screen {
                     );
                 }
         );
+        restoreDefaultButton.setTextColor(0xFF9090);
         restoreDefaultButton.setBackgroundTint(Color.MC_DARK_RED.argb());
         this.addDrawableChild(restoreDefaultButton);
 

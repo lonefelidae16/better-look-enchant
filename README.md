@@ -12,7 +12,7 @@ If you have the [ModMenu](https://www.curseforge.com/minecraft/mc-mods/modmenu),
 
 [Fabric loader](https://fabricmc.net/use/installer/) 0.11.0 or above.
 
-Available on fabric flavour only.
+Available on fabric flavor only.
 
 ## Features
 

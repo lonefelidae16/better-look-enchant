@@ -6,7 +6,7 @@
   "text.betterlookenchant.config.key.save": "設定を保存",
   "text.betterlookenchant.config.key.restore_default": "初期化",
   "text.betterlookenchant.config.restore.title": "Better Look Enchant 設定 | 初期化",
-  "text.betterlookenchant.config.restore.confirmation": "その操作はもとに戻せません。\n本当に実行しますか？",
+  "text.betterlookenchant.config.restore.confirmation": "この操作はもとに戻せません。\n本当に実行しますか？",
   "text.betterlookenchant.config.key.remove_tooltip": "一覧から削除",
   "text.betterlookenchant.config.choose.title": "エンチャントを選択",
   "text.betterlookenchant.config.key.bold": "太字",

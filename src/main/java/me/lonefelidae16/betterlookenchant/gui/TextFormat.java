@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class TextFormat {
+public final class TextFormat {
     private final Integer color;
     private final boolean isBold;
     private final boolean isItalic;

@@ -31,10 +31,10 @@ public class BetterLookEnchantConfig {
     private BetterLookEnchantConfig() {
         // set up defaults
         enabledEnchants = new ArrayList<>();
+        enabledEnchants.add(ENTRY_KEY_LV_MAX_FORMAT);
         enabledEnchants.add(Enchantments.MENDING.getTranslationKey());
         enabledEnchants.add(Enchantments.INFINITY.getTranslationKey());
         customFormats = new HashMap<>();
-        customFormats.put(ENTRY_KEY_DEFAULT_FORMAT, TextFormat.EMPTY);
         customFormats.put(ENTRY_KEY_LV_MAX_FORMAT, new TextFormat(Color.MC_GREEN.argb()));
         customFormats.put(Enchantments.MENDING.getTranslationKey(), new TextFormat(Color.MC_GOLD.argb()));
         customFormats.put(Enchantments.INFINITY.getTranslationKey(), new TextFormat(Color.MC_LIGHT_PURPLE.argb()));
@@ -88,10 +88,6 @@ public class BetterLookEnchantConfig {
             BetterLookEnchantConfig loaded = new Gson().fromJson(reader, BetterLookEnchantConfig.class);
             if (loaded == null) {
                 throw new JsonParseException("The result is null");
-            }
-            if (!loaded.customFormats.containsKey(BetterLookEnchantConfig.ENTRY_KEY_DEFAULT_FORMAT) ||
-                    !loaded.customFormats.containsKey(BetterLookEnchantConfig.ENTRY_KEY_LV_MAX_FORMAT)) {
-                throw new JsonParseException("Default settings are corrupted");
             }
             return loaded;
         } catch (IOException ex) {

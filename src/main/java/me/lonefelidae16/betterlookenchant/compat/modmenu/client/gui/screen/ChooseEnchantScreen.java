@@ -56,7 +56,10 @@ public class ChooseEnchantScreen extends Screen {
         public EnchantButtonListWidget(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight, BetterLookEnchantConfigScreen parent, String beforeEdit) {
             super(client, width, height, top, bottom, itemHeight);
 
+            // get all enchant exclude NonNull
             List<Enchantment> allEnchantList = Registry.ENCHANTMENT.stream().filter(Objects::nonNull).toList();
+
+            // generate a pair of enchant
             for (int i = 0; i < allEnchantList.size(); i += 2) {
                 Pair<String, String> pair = new Pair<>(null, null);
                 for (int j = 0; j < 2; ++j) {
@@ -66,6 +69,7 @@ public class ChooseEnchantScreen extends Screen {
                         pair.setRight(allEnchantList.get(i + j).getTranslationKey());
                     }
                 }
+                // add entry
                 this.addEntry(new EnchantButtonEntry(pair, beforeEdit, parent));
             }
         }
@@ -77,11 +81,11 @@ public class ChooseEnchantScreen extends Screen {
     }
 
     public static class EnchantButtonEntry extends ListWidgetEntryBase<EnchantButtonEntry> {
-        public EnchantButtonEntry(Pair<String, String> pairOfEnchant, String beforeEdit, BetterLookEnchantConfigScreen parent) {
+        public EnchantButtonEntry(Pair<String, String> aPairOfEnchant, String beforeEdit, BetterLookEnchantConfigScreen parent) {
             super();
 
             for (int i = 0; i < 2; ++i) {
-                String key = (i % 2 == 0) ? pairOfEnchant.getLeft() : pairOfEnchant.getRight();
+                String key = (i % 2 == 0) ? aPairOfEnchant.getLeft() : aPairOfEnchant.getRight();
                 if (key == null) {
                     continue;
                 }
@@ -89,33 +93,36 @@ public class ChooseEnchantScreen extends Screen {
                 int x = i * 114;
                 final OffsetButtonWidget buttonWidget = new OffsetButtonWidget(x, 0, 110, 20, Text.translatable(key), button -> {
                     // get the index before edit
-                    int idx = CONFIG.enabledEnchants.indexOf(beforeEdit);
+                    int idx = ChooseEnchantScreen.CONFIG.enabledEnchants.indexOf(beforeEdit);
                     if (idx == -1) {
-                        idx = CONFIG.enabledEnchants.size();
+                        // the button is “New”
+                        idx = ChooseEnchantScreen.CONFIG.enabledEnchants.size();
                     }
 
                     // replace
-                    CONFIG.enabledEnchants.remove(beforeEdit);
-                    CONFIG.enabledEnchants.add(idx, key);
+                    ChooseEnchantScreen.CONFIG.enabledEnchants.remove(beforeEdit);
+                    ChooseEnchantScreen.CONFIG.enabledEnchants.add(idx, key);
 
                     // register
-                    CONFIG.customFormats.put(key, CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY));
+                    ChooseEnchantScreen.CONFIG.customFormats.put(
+                            key,
+                            ChooseEnchantScreen.CONFIG.customFormats.getOrDefault(beforeEdit, TextFormat.EMPTY)
+                    );
+                    ChooseEnchantScreen.CONFIG.customFormats.remove(beforeEdit);
 
                     // come back to parent screen
                     parent.refresh();
                     MinecraftClient.getInstance().setScreen(parent);
                 });
                 if (key.equals(beforeEdit)) {
+                    // yellow tint if matches selected enchant
                     buttonWidget.setBackgroundTint(Color.MC_YELLOW.argb());
-                } else if (CONFIG.enabledEnchants.contains(key)) {
+                } else if (ChooseEnchantScreen.CONFIG.enabledEnchants.contains(key)) {
+                    // enchant already exists
                     buttonWidget.active = false;
                 }
                 this.addDrawableChild(buttonWidget);
             }
-        }
-
-        public EnchantButtonEntry(String enchantmentKey, String beforeEdit, BetterLookEnchantConfigScreen parent) {
-            this(new Pair<>(enchantmentKey, null), beforeEdit, parent);
         }
     }
 }

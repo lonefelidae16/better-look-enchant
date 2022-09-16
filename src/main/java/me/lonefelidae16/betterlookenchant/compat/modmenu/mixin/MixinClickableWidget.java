@@ -13,10 +13,19 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(ClickableWidget.class)
 public abstract class MixinClickableWidget extends DrawableHelper implements Drawable, Element, Selectable {
+    /**
+     * enable background color tint which implements IColorTint
+     *
+     * @param red original red
+     * @param green original green
+     * @param blue original blue
+     * @param alpha original alpha
+     */
     @Redirect(
             method = "renderButton(Lnet/minecraft/client/util/math/MatrixStack;IIF)V",
             at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V")
@@ -31,20 +40,27 @@ public abstract class MixinClickableWidget extends DrawableHelper implements Dra
         }
     }
 
-    @Redirect(
+    /**
+     * enable foreground color tint which implements IColorTint
+     *
+     * @param c original color
+     * @return tinted color
+     */
+    @ModifyArg(
             method = "renderButton(Lnet/minecraft/client/util/math/MatrixStack;IIF)V",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/gui/widget/ClickableWidget;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"
-            )
+            ),
+            index = 5
     )
-    private void betterLookEnchant$drawCenteredText(MatrixStack matrices, TextRenderer textRenderer, Text text, int x, int y, int c) {
+    private int betterLookEnchant$drawCenteredText_arg5(int c) {
         var $this = ClickableWidget.class.cast(this);
         if ($this instanceof IColorTint iColorTint) {
             Color color = iColorTint.getForegroundColor();
-            drawCenteredText(matrices, textRenderer, text, x, y, color.argb());
+            return color.argb();
         } else {
-            drawCenteredText(matrices, textRenderer, text, x, y, c);
+            return c;
         }
     }
 }

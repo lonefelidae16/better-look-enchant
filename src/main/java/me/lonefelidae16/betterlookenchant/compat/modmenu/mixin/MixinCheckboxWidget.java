@@ -15,6 +15,14 @@ public abstract class MixinCheckboxWidget extends PressableWidget {
         super(x, y, width, height, text);
     }
 
+    /**
+     * gray out if this Checkbox is not active
+     *
+     * @param red original red
+     * @param green original green
+     * @param blue original blue
+     * @param alpha original alpha
+     */
     @Redirect(
             method = "renderButton(Lnet/minecraft/client/util/math/MatrixStack;IIF)V",
             at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V")

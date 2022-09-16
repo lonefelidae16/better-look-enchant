@@ -36,9 +36,9 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                         parent
                 )
         );
-        TextFormatListWidget.CONFIG.enabledEnchants.stream().distinct().forEach(key ->
-                this.addEntry(new TextFormatEntry(key, TextFormatListWidget.CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY), parent))
-        );
+        TextFormatListWidget.CONFIG.customFormats.keySet().stream()
+                .filter(key -> !key.equals(BetterLookEnchantConfig.ENTRY_KEY_DEFAULT_FORMAT) && !key.equals(BetterLookEnchantConfig.ENTRY_KEY_LV_MAX_FORMAT))
+                .forEach(key -> this.addEntry(new TextFormatEntry(key, TextFormatListWidget.CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY), parent)));
         this.addEntry(new TextFormatEntry(ENTRY_ADD_NEW, null, parent));
     }
 
@@ -83,7 +83,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                 if (!key.equals(ENTRY_ADD_NEW)) {
                     // remove enchant entry: Button
                     OffsetButtonWidget removeButton = new OffsetButtonWidget(120, 0, DEFAULT_ELEMENT_WIDTH, DEFAULT_ELEMENT_HEIGHT, Text.translatable("text.betterlookenchant.config.key.remove"), button -> {
-                        CONFIG.enabledEnchants.remove(key);
+                        TextFormatListWidget.CONFIG.customFormats.remove(key);
                         parent.refresh();
                     }, (button, matrices, mouseX, mouseY) -> {
                         if (button.isHovered()) {
@@ -95,7 +95,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                 }
             }
             if (format != null) {
-                this.isEnabled = !format.equals(TextFormat.EMPTY);
+                this.isEnabled = TextFormatListWidget.CONFIG.enabledEnchants.contains(key);
 
                 // isBold: Checkbox
                 OffsetCheckboxWidget boldCheckbox = new OffsetCheckboxWidget(
@@ -106,7 +106,10 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                         Text.empty(), format.isBold()
                 );
                 boldCheckbox.setCheckedChangedListener(bool -> {
-                    CONFIG.customFormats.put(key, CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY).withBold(bool));
+                    TextFormatListWidget.CONFIG.customFormats.put(
+                            key,
+                            TextFormatListWidget.CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY).withBold(bool)
+                    );
                 });
                 boldCheckbox.active = this.isEnabled;
                 this.addDrawableChild(boldCheckbox);
@@ -119,7 +122,10 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                         Text.empty(), format.isItalic()
                 );
                 italicCheckbox.setCheckedChangedListener(bool -> {
-                    CONFIG.customFormats.put(key, CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY).withItalic(bool));
+                    TextFormatListWidget.CONFIG.customFormats.put(
+                            key,
+                            TextFormatListWidget.CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY).withItalic(bool)
+                    );
                 });
                 italicCheckbox.active = this.isEnabled;
                 this.addDrawableChild(italicCheckbox);
@@ -132,7 +138,10 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                         Text.empty(), format.isUnderline()
                 );
                 underlineCheckbox.setCheckedChangedListener(bool -> {
-                    CONFIG.customFormats.put(key, CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY).withUnderline(bool));
+                    TextFormatListWidget.CONFIG.customFormats.put(
+                            key,
+                            TextFormatListWidget.CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY).withUnderline(bool)
+                    );
                 });
                 underlineCheckbox.active = this.isEnabled;
                 this.addDrawableChild(underlineCheckbox);
@@ -145,7 +154,10 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                         Text.empty(), format.isStrike()
                 );
                 strikeCheckbox.setCheckedChangedListener(bool -> {
-                    CONFIG.customFormats.put(key, CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY).withStrike(bool));
+                    TextFormatListWidget.CONFIG.customFormats.put(
+                            key,
+                            TextFormatListWidget.CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY).withStrike(bool)
+                    );
                 });
                 strikeCheckbox.active = this.isEnabled;
                 this.addDrawableChild(strikeCheckbox);
@@ -155,22 +167,15 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                         0,
                         DEFAULT_ELEMENT_HEIGHT + DEFAULT_ELEMENT_MARGIN,
                         DEFAULT_ELEMENT_WIDTH, DEFAULT_ELEMENT_HEIGHT,
-                        Text.empty(), this.isEnabled
+                        Text.empty(),
+                        this.isEnabled
                 );
                 enabledCheckbox.setCheckedChangedListener(bool -> {
                     this.isEnabled = bool;
                     if (bool) {
-                        CONFIG.customFormats.put(key,
-                                new TextFormat(
-                                        Color.fromHexString(this.colorEditor.getText()).argb(),
-                                        boldCheckbox.isChecked(),
-                                        italicCheckbox.isChecked(),
-                                        underlineCheckbox.isChecked(),
-                                        strikeCheckbox.isChecked()
-                                )
-                        );
+                        TextFormatListWidget.CONFIG.enabledEnchants.add(key);
                     } else {
-                        CONFIG.customFormats.put(key, TextFormat.EMPTY);
+                        TextFormatListWidget.CONFIG.enabledEnchants.remove(key);
                     }
                     boldCheckbox.active = bool;
                     italicCheckbox.active = bool;
@@ -186,13 +191,17 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                     colorString = Color.fromARGB(format.getColor()).asHexString();
                 }
                 this.colorEditor = new OffsetTextFieldWidget(MinecraftClient.getInstance().textRenderer, 176, 0, 50, DEFAULT_ELEMENT_HEIGHT, Text.empty());
-                this.colorEditor.setEditable(isEnabled);
+                this.colorEditor.setEditable(this.isEnabled);
                 this.colorEditor.setChangedListener(str -> {
                     if (this.enchantButton != null) {
                         this.enchantButton.setTextColor(Color.fromHexString(this.colorEditor.getText()).argb());
                     }
                     if (!str.isEmpty()) {
-                        CONFIG.customFormats.put(key, CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY).withColor(Color.fromHexString(str).argb()));
+                        TextFormatListWidget.CONFIG.customFormats.put(
+                                key,
+                                TextFormatListWidget.CONFIG.customFormats.getOrDefault(key, TextFormat.EMPTY)
+                                        .withColor(Color.fromHexString(str).argb())
+                        );
                     }
                 });
                 this.colorEditor.setText(colorString);
@@ -211,22 +220,26 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                 drawCenteredText(
                         matrices, font, Text.translatable("text.betterlookenchant.config.key.bold"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 3 + DEFAULT_ELEMENT_WIDTH / 2 + x,
-                        44 + y, color
+                        44 + y,
+                        color
                 );
                 drawCenteredText(
                         matrices, font, Text.translatable("text.betterlookenchant.config.key.italic"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 2 + DEFAULT_ELEMENT_WIDTH / 2 + x,
-                        44 + y, color
+                        44 + y,
+                        color
                 );
                 drawCenteredText(
                         matrices, font, Text.translatable("text.betterlookenchant.config.key.underline"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 1 + DEFAULT_ELEMENT_WIDTH / 2 + x,
-                        44 + y, color
+                        44 + y,
+                        color
                 );
                 drawCenteredText(
                         matrices, font, Text.translatable("text.betterlookenchant.config.key.strike"),
                         CHECKBOX_MAX_X + DEFAULT_ELEMENT_WIDTH / 2 + x,
-                        44 + y, color
+                        44 + y,
+                        color
                 );
             }
             super.render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
