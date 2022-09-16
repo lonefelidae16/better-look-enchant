@@ -8,6 +8,7 @@ import me.lonefelidae16.betterlookenchant.gui.TextFormat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.enchantment.Enchantment;
@@ -27,7 +28,7 @@ public class ChooseEnchantScreen extends Screen {
     private static final BetterLookEnchantConfig CONFIG = BetterLookEnchantConfig.getInstance();
 
     public ChooseEnchantScreen(BetterLookEnchantConfigScreen parent, String beforeEdit) {
-        super(Text.translatable("text.betterlookenchant.key.choose.title"));
+        super(Text.translatable("text.betterlookenchant.config.choose.title"));
         this.parent = parent;
         this.beforeEdit = beforeEdit;
     }
@@ -36,10 +37,11 @@ public class ChooseEnchantScreen extends Screen {
     protected void init() {
         this.listWidget = new EnchantButtonListWidget(this.client, this.width, this.height, 24, this.height - 32, 24, this.parent, this.beforeEdit);
         this.addSelectableChild(this.listWidget);
-        OffsetButtonWidget cancelButtonWidget = new OffsetButtonWidget(this.width / 2 - 55, this.height - 28, 110, 20, ScreenTexts.CANCEL, button -> {
-            this.client.setScreen(this.parent);
-        });
-        this.addDrawableChild(cancelButtonWidget);
+        this.addDrawableChild(
+                new ButtonWidget(this.width / 2 - 55, this.height - 28, 110, 20, ScreenTexts.CANCEL,
+                        button -> this.client.setScreen(this.parent)
+                )
+        );
     }
 
     @Override
@@ -78,7 +80,7 @@ public class ChooseEnchantScreen extends Screen {
         public EnchantButtonEntry(Pair<String, String> pairOfEnchant, String beforeEdit, BetterLookEnchantConfigScreen parent) {
             super();
 
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 2; ++i) {
                 String key = (i % 2 == 0) ? pairOfEnchant.getLeft() : pairOfEnchant.getRight();
                 if (key == null) {
                     continue;
