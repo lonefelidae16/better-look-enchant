@@ -39,7 +39,7 @@ public class BetterLookEnchantConfigScreen extends Screen {
         // Save button
         this.addDrawableChild(
                 new ButtonWidget(this.width / 2 + 4, this.height - 28, 150, 20,
-                        Text.translatable("text.betterlookenchant.config.key.save"),
+                        Text.translatable("text.betterlookenchant.config.save"),
                         (button) -> {
                             BetterLookEnchantConfig.writeFile(BetterLookEnchantClient.STATE_FILE);
                             this.client.setScreen(this.parent);
@@ -49,7 +49,7 @@ public class BetterLookEnchantConfigScreen extends Screen {
 
         // Restore Default button
         ColoredButtonWidget restoreDefaultButton = new ColoredButtonWidget(this.width - 120 - 4, 4, 120, 20,
-                Text.translatable("text.betterlookenchant.config.key.restore_default"),
+                Text.translatable("text.betterlookenchant.config.restore_default"),
                 (button) -> {
                     this.client.setScreen(
                             new ConfirmScreen(
@@ -77,7 +77,7 @@ public class BetterLookEnchantConfigScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
         this.textFormatListWidget.render(matrices, mouseX, mouseY, delta);
-        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 15, Color.WHITE.argb());
+        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 12, Color.WHITE.argb());
         super.render(matrices, mouseX, mouseY, delta);
     }
 

@@ -48,7 +48,7 @@ public class ChooseEnchantScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
         this.listWidget.render(matrices, mouseX, mouseY, delta);
-        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 6, Color.WHITE.argb());
+        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 8, Color.WHITE.argb());
         super.render(matrices, mouseX, mouseY, delta);
     }
 

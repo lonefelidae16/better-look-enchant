@@ -82,12 +82,13 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
 
                 if (!key.equals(ENTRY_ADD_NEW)) {
                     // remove enchant entry: Button
-                    OffsetButtonWidget removeButton = new OffsetButtonWidget(120, 0, DEFAULT_ELEMENT_WIDTH, DEFAULT_ELEMENT_HEIGHT, Text.translatable("text.betterlookenchant.config.key.remove"), button -> {
+                    OffsetButtonWidget removeButton = new OffsetButtonWidget(120, 0, DEFAULT_ELEMENT_WIDTH, DEFAULT_ELEMENT_HEIGHT, Text.translatable("text.betterlookenchant.config.remove"), button -> {
                         TextFormatListWidget.CONFIG.customFormats.remove(key);
+                        TextFormatListWidget.CONFIG.enabledEnchants.remove(key);
                         parent.refresh();
                     }, (button, matrices, mouseX, mouseY) -> {
                         if (button.isHovered()) {
-                            parent.renderTooltip(matrices, Text.translatable("text.betterlookenchant.config.key.remove_tooltip"), mouseX, mouseY);
+                            parent.renderTooltip(matrices, Text.translatable("text.betterlookenchant.config.remove_tooltip"), mouseX, mouseY);
                         }
                     });
                     removeButton.setBackgroundTint(Color.MC_DARK_RED.argb());
@@ -218,25 +219,25 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
             if (!this.key.equals(ENTRY_ADD_NEW)) {
                 int color = (this.isEnabled) ? Color.WHITE.argb() : Color.MC_GRAY.argb();
                 drawCenteredText(
-                        matrices, font, Text.translatable("text.betterlookenchant.config.key.bold"),
+                        matrices, font, Text.translatable("text.betterlookenchant.config.bold"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 3 + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color
                 );
                 drawCenteredText(
-                        matrices, font, Text.translatable("text.betterlookenchant.config.key.italic"),
+                        matrices, font, Text.translatable("text.betterlookenchant.config.italic"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 2 + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color
                 );
                 drawCenteredText(
-                        matrices, font, Text.translatable("text.betterlookenchant.config.key.underline"),
+                        matrices, font, Text.translatable("text.betterlookenchant.config.underline"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 1 + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color
                 );
                 drawCenteredText(
-                        matrices, font, Text.translatable("text.betterlookenchant.config.key.strike"),
+                        matrices, font, Text.translatable("text.betterlookenchant.config.strike"),
                         CHECKBOX_MAX_X + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color
