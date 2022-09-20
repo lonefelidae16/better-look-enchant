@@ -25,13 +25,13 @@ public abstract class MixinEnchantment {
                 TextFormat.EMPTY;
 
         // set custom style
-        if (!defaultFontFormat.equals(TextFormat.EMPTY)) {
+        if (!defaultFontFormat.isEmpty()) {
             text.setStyle(defaultFontFormat.asStyle());
         }
 
         if ($this.getMaxLevel() == level) {
             // set custom Lv Max style
-            if (!$this.isCursed() && !defaultLvMaxFormat.equals(TextFormat.EMPTY)) {
+            if (!$this.isCursed() && !defaultLvMaxFormat.isEmpty()) {
                 // exclude Cursed enchant
                 text.setStyle(defaultLvMaxFormat.asStyle());
             }
@@ -39,7 +39,7 @@ public abstract class MixinEnchantment {
             // search and apply specified style that matches this enchant
             if (config.enabledEnchants.contains($this.getTranslationKey())) {
                 TextFormat format = config.customFormats.getOrDefault($this.getTranslationKey(), TextFormat.EMPTY);
-                if (!format.equals(TextFormat.EMPTY)) {
+                if (!format.isEmpty()) {
                     text.setStyle(format.asStyle());
                 }
             }

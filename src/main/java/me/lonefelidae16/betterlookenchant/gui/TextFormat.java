@@ -59,6 +59,10 @@ public final class TextFormat {
                 .withStrikethrough(this.isStrike);
     }
 
+    public boolean isEmpty() {
+        return this.equals(TextFormat.EMPTY);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof TextFormat target)) {

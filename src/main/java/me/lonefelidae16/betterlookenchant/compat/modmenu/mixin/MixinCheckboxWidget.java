@@ -18,9 +18,9 @@ public abstract class MixinCheckboxWidget extends PressableWidget {
     /**
      * gray out if this Checkbox is not active
      *
-     * @param red original red
+     * @param red   original red
      * @param green original green
-     * @param blue original blue
+     * @param blue  original blue
      * @param alpha original alpha
      */
     @Redirect(
@@ -28,7 +28,11 @@ public abstract class MixinCheckboxWidget extends PressableWidget {
             at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V")
     )
     private void betterLookEnchant$setShaderColor(float red, float green, float blue, float alpha) {
-        Color color = active ? Color.WHITE : Color.MC_DARK_GRAY;
-        RenderSystem.setShaderColor(color.red() / 255.0F, color.green() / 255.0F, color.blue() / 255.0F, alpha);
+        if (!this.active) {
+            Color color = Color.MC_DARK_GRAY;
+            RenderSystem.setShaderColor(color.red() / 255.0F, color.green() / 255.0F, color.blue() / 255.0F, alpha);
+        } else {
+            RenderSystem.setShaderColor(red, green, blue, alpha);
+        }
     }
 }

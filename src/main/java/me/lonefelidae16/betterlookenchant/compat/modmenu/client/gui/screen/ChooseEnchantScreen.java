@@ -26,6 +26,7 @@ public class ChooseEnchantScreen extends Screen {
     private EnchantButtonListWidget listWidget;
 
     private static final BetterLookEnchantConfig CONFIG = BetterLookEnchantConfig.getInstance();
+    private static final List<Enchantment> ALL_ENCHANT_LIST = Registry.ENCHANTMENT.stream().filter(Objects::nonNull).toList();
 
     public ChooseEnchantScreen(BetterLookEnchantConfigScreen parent, String beforeEdit) {
         super(Text.translatable("text.betterlookenchant.config.choose.title"));
@@ -56,17 +57,14 @@ public class ChooseEnchantScreen extends Screen {
         public EnchantButtonListWidget(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight, BetterLookEnchantConfigScreen parent, String beforeEdit) {
             super(client, width, height, top, bottom, itemHeight);
 
-            // get all enchant exclude NonNull
-            List<Enchantment> allEnchantList = Registry.ENCHANTMENT.stream().filter(Objects::nonNull).toList();
-
             // generate a pair of enchant
-            for (int i = 0; i < allEnchantList.size(); i += 2) {
+            for (int i = 0; i < ChooseEnchantScreen.ALL_ENCHANT_LIST.size(); i += 2) {
                 Pair<String, String> pair = new Pair<>(null, null);
                 for (int j = 0; j < 2; ++j) {
                     if ((i + j) % 2 == 0) {
-                        pair.setLeft(allEnchantList.get(i + j).getTranslationKey());
-                    } else if ((i + j) < allEnchantList.size()) {
-                        pair.setRight(allEnchantList.get(i + j).getTranslationKey());
+                        pair.setLeft(ChooseEnchantScreen.ALL_ENCHANT_LIST.get(i + j).getTranslationKey());
+                    } else if ((i + j) < ChooseEnchantScreen.ALL_ENCHANT_LIST.size()) {
+                        pair.setRight(ChooseEnchantScreen.ALL_ENCHANT_LIST.get(i + j).getTranslationKey());
                     }
                 }
                 // add entry
