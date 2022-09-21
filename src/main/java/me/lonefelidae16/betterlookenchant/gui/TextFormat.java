@@ -65,9 +65,10 @@ public final class TextFormat {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof TextFormat target)) {
+        if (!(obj instanceof TextFormat)) {
             return false;
         }
+        TextFormat target = (TextFormat) obj;
         return Objects.equals(this.color, target.color) &&
                 this.isBold == target.isBold &&
                 this.isItalic == target.isItalic &&

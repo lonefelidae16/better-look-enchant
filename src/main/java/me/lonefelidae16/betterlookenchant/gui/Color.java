@@ -1,6 +1,6 @@
 package me.lonefelidae16.betterlookenchant.gui;
 
-public record Color(int argb) {
+public class Color {
     public static final Color WHITE = fromGray(0xff);
     public static final Color MC_BLACK = fromGray(0x0);
     public static final Color MC_DARK_BLUE = fromRGB(0, 0, 0xaa);
@@ -17,6 +17,12 @@ public record Color(int argb) {
     public static final Color MC_RED = fromRGB(0xff, 0x55, 0x55);
     public static final Color MC_LIGHT_PURPLE = fromRGB(0xff, 0x55, 0xff);
     public static final Color MC_YELLOW = fromRGB(0xff, 0xff, 0x55);
+
+    private final int argb;
+
+    public Color(int color) {
+        this.argb = color;
+    }
 
     public static Color fromARGB(int argb) {
         return new Color(argb);
@@ -57,6 +63,10 @@ public record Color(int argb) {
         } catch (Throwable ignore) {
         }
         return Color.fromARGB(decoded);
+    }
+
+    public int argb() {
+        return this.argb;
     }
 
     public int alpha() {

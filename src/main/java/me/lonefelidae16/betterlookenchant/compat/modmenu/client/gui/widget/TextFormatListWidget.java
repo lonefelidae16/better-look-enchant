@@ -224,7 +224,6 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
         }
 
         private void updateEnchantButton() {
-            // TODO: change the button text style
             if (this.enchantButton == null) {
                 return;
             }

@@ -26,8 +26,9 @@ public abstract class MixinClickableWidget extends DrawableHelper implements Dra
             at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V")
     )
     private void betterLookEnchant$setShaderColor(float red, float green, float blue, float alpha) {
-        var $this = ClickableWidget.class.cast(this);
-        if ($this instanceof IColorTint iColorTint) {
+        ClickableWidget $this = ClickableWidget.class.cast(this);
+        if ($this instanceof IColorTint) {
+            IColorTint iColorTint = (IColorTint) $this;
             int color = iColorTint.getBackgroundColor();
             float r = (color >> 16 & 0xff) / 255.0F;
             float g = (color >> 8 & 0xff) / 255.0F;

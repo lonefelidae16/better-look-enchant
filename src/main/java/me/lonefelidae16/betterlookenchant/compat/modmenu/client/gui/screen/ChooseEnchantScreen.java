@@ -17,6 +17,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +27,7 @@ public class ChooseEnchantScreen extends Screen {
     private EnchantButtonListWidget listWidget;
 
     private static final BetterLookEnchantConfig CONFIG = BetterLookEnchantConfig.getInstance();
-    private static final List<Enchantment> ALL_ENCHANT_LIST = Registry.ENCHANTMENT.stream().filter(Objects::nonNull).toList();
+    private static final List<Enchantment> ALL_ENCHANT_LIST = Arrays.asList(Registry.ENCHANTMENT.stream().filter(Objects::nonNull).toArray(Enchantment[]::new));
 
     public ChooseEnchantScreen(BetterLookEnchantConfigScreen parent, String beforeEdit) {
         super(Text.translatable("text.betterlookenchant.config.choose.title"));
@@ -93,7 +94,7 @@ public class ChooseEnchantScreen extends Screen {
                     // get the index before edit
                     int idx = ChooseEnchantScreen.CONFIG.enabledEnchants.indexOf(beforeEdit);
                     if (idx == -1) {
-                        // the button is “New”
+                        // the “New” enchant
                         idx = ChooseEnchantScreen.CONFIG.enabledEnchants.size();
                     }
 
@@ -106,7 +107,9 @@ public class ChooseEnchantScreen extends Screen {
                             key,
                             ChooseEnchantScreen.CONFIG.customFormats.getOrDefault(beforeEdit, TextFormat.EMPTY)
                     );
-                    ChooseEnchantScreen.CONFIG.customFormats.remove(beforeEdit);
+                    if (!key.equals(beforeEdit)) {
+                        ChooseEnchantScreen.CONFIG.customFormats.remove(beforeEdit);
+                    }
 
                     // come back to parent screen
                     parent.refresh();

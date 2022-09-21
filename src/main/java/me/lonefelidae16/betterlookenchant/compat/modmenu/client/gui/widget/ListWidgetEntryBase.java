@@ -30,7 +30,8 @@ public abstract class ListWidgetEntryBase<E extends EntryListWidget.Entry<E>> ex
     @Override
     public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         this.drawableChildren.forEach(element -> {
-            if (element instanceof IOffsetElement iOffsetElement) {
+            if (element instanceof IOffsetElement) {
+                IOffsetElement iOffsetElement = (IOffsetElement) element;
                 iOffsetElement.render(x, y, matrices, mouseX, mouseY, tickDelta);
             } else {
                 element.render(matrices, mouseX, mouseY, tickDelta);
