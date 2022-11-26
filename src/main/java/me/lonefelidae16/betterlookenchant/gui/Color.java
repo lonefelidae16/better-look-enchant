@@ -29,7 +29,7 @@ public class Color {
     }
 
     public static Color fromGray(int gray) {
-        return fromARGB(0, gray, gray, gray);
+        return fromARGB(0xFF, gray, gray, gray);
     }
 
     public static Color fromGray(int gray, int alpha) {
@@ -37,7 +37,7 @@ public class Color {
     }
 
     public static Color fromRGB(int red, int green, int blue) {
-        return fromARGB(0, red, green, blue);
+        return fromARGB(0xFF, red, green, blue);
     }
 
     public static Color fromARGB(int alpha, int red, int green, int blue) {
@@ -51,13 +51,16 @@ public class Color {
         if (hex.startsWith("#")) {
             hex = hex.substring(1);
         }
+        if (hex.startsWith("0x")) {
+            hex = hex.substring(3);
+        }
         if (hex.length() == 3) {
-            hex = String.format("%c%c%c%c%c%c", hex.charAt(0), hex.charAt(0), hex.charAt(1), hex.charAt(1), hex.charAt(2), hex.charAt(2));
+            hex = String.format("FF%c%c%c%c%c%c", hex.charAt(0), hex.charAt(0), hex.charAt(1), hex.charAt(1), hex.charAt(2), hex.charAt(2));
+        } else if (hex.length() == 4) {
+            hex = String.format("%c%c%c%c%c%c%c%c", hex.charAt(0), hex.charAt(0), hex.charAt(1), hex.charAt(1), hex.charAt(2), hex.charAt(2), hex.charAt(3), hex.charAt(3));
         }
-        if (!hex.startsWith("0x")) {
-            hex = "0x" + hex;
-        }
-        int decoded = 0xFFFFFF;
+        hex = "0x" + hex;
+        int decoded = Color.WHITE.argb;
         try {
             decoded = Integer.decode(hex);
         } catch (Throwable ignore) {
@@ -86,6 +89,9 @@ public class Color {
     }
 
     public String asHexString() {
+        if (this.alpha() < 0xFF) {
+            return String.format("%02X%02X%02X%02X", this.alpha(), this.red(), this.green(), this.blue());
+        }
         return String.format("%02X%02X%02X", this.red(), this.green(), this.blue());
     }
 }

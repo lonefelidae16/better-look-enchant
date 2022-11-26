@@ -205,7 +205,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                 if (format.getColor() != null) {
                     colorString = Color.fromARGB(format.getColor()).asHexString();
                 }
-                this.colorEditor = new OffsetTextFieldWidget(MinecraftClient.getInstance().textRenderer, 176, 0, 50, DEFAULT_ELEMENT_HEIGHT, Text.empty());
+                this.colorEditor = new OffsetTextFieldWidget(MinecraftClient.getInstance().textRenderer, 166, 0, 60, DEFAULT_ELEMENT_HEIGHT, Text.empty());
                 this.colorEditor.setText(colorString);
                 this.colorEditor.setEditable(this.isEnabled);
                 this.colorEditor.setChangedListener(str -> {

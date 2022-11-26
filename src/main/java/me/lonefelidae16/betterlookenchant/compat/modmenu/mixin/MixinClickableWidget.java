@@ -30,10 +30,11 @@ public abstract class MixinClickableWidget extends DrawableHelper implements Dra
         if ($this instanceof IColorTint) {
             IColorTint iColorTint = (IColorTint) $this;
             int color = iColorTint.getBackgroundColor();
+            float a = (color >> 24 & 0xff) / 255.0F;
             float r = (color >> 16 & 0xff) / 255.0F;
             float g = (color >> 8 & 0xff) / 255.0F;
             float b = (color & 0xff) / 255.0F;
-            RenderSystem.setShaderColor(r, g, b, alpha);
+            RenderSystem.setShaderColor(r, g, b, a);
         } else {
             RenderSystem.setShaderColor(red, green, blue, alpha);
         }
