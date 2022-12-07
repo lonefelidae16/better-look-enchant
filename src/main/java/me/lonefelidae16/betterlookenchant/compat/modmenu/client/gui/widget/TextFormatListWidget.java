@@ -8,6 +8,7 @@ import me.lonefelidae16.betterlookenchant.gui.TextFormat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.MutableText;
@@ -78,9 +79,11 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
             this.customEnchant = !this.key.equals(BetterLookEnchantConfig.ENTRY_KEY_DEFAULT_FORMAT) && !this.key.equals(BetterLookEnchantConfig.ENTRY_KEY_LV_MAX_FORMAT);
             if (this.customEnchant) {
                 // change or add enchant: Button
-                this.enchantButton = new OffsetButtonWidget(0, 0, 110, DEFAULT_ELEMENT_HEIGHT, Text.translatable(this.key), button ->
+                this.enchantButton = new OffsetButtonWidget.Builder(Text.translatable(this.key), button ->
                         MinecraftClient.getInstance().setScreen(new ChooseEnchantScreen(this.parent, this.key))
-                );
+                )
+                        .dimensions(0, 0, 110, DEFAULT_ELEMENT_HEIGHT)
+                        .build();
                 if (format != null) {
                     this.enchantButton.setTextFormat(format.asStyle());
                 }
@@ -88,15 +91,14 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
 
                 if (!this.key.equals(TextFormatListWidget.ENTRY_ADD_NEW)) {
                     // remove enchant entry: Button
-                    OffsetButtonWidget removeButton = new OffsetButtonWidget(120, 0, DEFAULT_ELEMENT_WIDTH, DEFAULT_ELEMENT_HEIGHT, Text.translatable("text.betterlookenchant.config.remove"), button -> {
+                    OffsetButtonWidget removeButton = new OffsetButtonWidget.Builder(Text.translatable("text.betterlookenchant.config.remove"), button -> {
                         TextFormatListWidget.CONFIG.customFormats.remove(this.key);
                         TextFormatListWidget.CONFIG.enabledEnchants.remove(this.key);
                         this.parent.refresh();
-                    }, (button, matrices, mouseX, mouseY) -> {
-                        if (button.isHovered()) {
-                            this.parent.renderTooltip(matrices, Text.translatable("text.betterlookenchant.config.remove_tooltip"), mouseX, mouseY);
-                        }
-                    });
+                    })
+                            .dimensions(120, 0, DEFAULT_ELEMENT_WIDTH, DEFAULT_ELEMENT_HEIGHT)
+                            .tooltip(Tooltip.of(Text.translatable("text.betterlookenchant.config.remove_tooltip")))
+                            .build();
                     removeButton.setBackgroundTint(Color.MC_DARK_RED.argb());
                     this.addDrawableChild(removeButton);
                 }

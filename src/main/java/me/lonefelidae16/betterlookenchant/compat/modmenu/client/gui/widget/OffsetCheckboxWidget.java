@@ -20,8 +20,8 @@ public class OffsetCheckboxWidget extends CheckboxWidget implements IOffsetEleme
 
     @Override
     public void render(int x, int y, MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.x = x + this.offsetX;
-        this.y = y + this.offsetY;
+        this.setX(x + this.offsetX);
+        this.setY(y + this.offsetY);
         super.render(matrices, mouseX, mouseY, delta);
     }
 

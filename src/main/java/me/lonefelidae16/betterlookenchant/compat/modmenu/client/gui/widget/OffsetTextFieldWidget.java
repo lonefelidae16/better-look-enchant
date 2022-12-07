@@ -18,8 +18,8 @@ public class OffsetTextFieldWidget extends TextFieldWidget implements IOffsetEle
 
     @Override
     public void render(int x, int y, MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.x = this.offsetX + x;
-        this.y = this.offsetY + y;
+        this.setX(x + this.offsetX);
+        this.setY(y + this.offsetY);
         super.render(matrices, mouseX, mouseY, delta);
     }
 }

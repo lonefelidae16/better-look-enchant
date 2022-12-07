@@ -5,6 +5,8 @@ import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.widget.ListW
 import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.widget.OffsetButtonWidget;
 import me.lonefelidae16.betterlookenchant.gui.Color;
 import me.lonefelidae16.betterlookenchant.gui.TextFormat;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -12,22 +14,23 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@Environment(EnvType.CLIENT)
 public class ChooseEnchantScreen extends Screen {
     private final BetterLookEnchantConfigScreen parent;
     private final String beforeEdit;
     private EnchantButtonListWidget listWidget;
 
     private static final BetterLookEnchantConfig CONFIG = BetterLookEnchantConfig.getInstance();
-    private static final List<Enchantment> ALL_ENCHANT_LIST = Arrays.asList(Registry.ENCHANTMENT.stream().filter(Objects::nonNull).toArray(Enchantment[]::new));
+    private static final List<Enchantment> ALL_ENCHANT_LIST = Arrays.asList(Registries.ENCHANTMENT.stream().filter(Objects::nonNull).toArray(Enchantment[]::new));
 
     public ChooseEnchantScreen(BetterLookEnchantConfigScreen parent, String beforeEdit) {
         super(Text.translatable("text.betterlookenchant.config.choose.title"));
@@ -40,9 +43,9 @@ public class ChooseEnchantScreen extends Screen {
         this.listWidget = new EnchantButtonListWidget(this.client, this.width, this.height, 24, this.height - 32, 24, this.parent, this.beforeEdit);
         this.addSelectableChild(this.listWidget);
         this.addDrawableChild(
-                new ButtonWidget(this.width / 2 - 55, this.height - 28, 110, 20, ScreenTexts.CANCEL,
-                        button -> this.client.setScreen(this.parent)
-                )
+                ButtonWidget.builder(ScreenTexts.CANCEL, button -> this.client.setScreen(this.parent))
+                        .dimensions(this.width / 2 - 55, this.height - 28, 110, 20)
+                        .build()
         );
     }
 
@@ -90,7 +93,7 @@ public class ChooseEnchantScreen extends Screen {
                 }
 
                 int x = i * 114;
-                final OffsetButtonWidget buttonWidget = new OffsetButtonWidget(x, 0, 110, 20, Text.translatable(key), button -> {
+                final OffsetButtonWidget buttonWidget = new OffsetButtonWidget.Builder(Text.translatable(key), button -> {
                     // get the index before edit
                     int idx = ChooseEnchantScreen.CONFIG.enabledEnchants.indexOf(beforeEdit);
                     if (idx == -1) {
@@ -114,7 +117,9 @@ public class ChooseEnchantScreen extends Screen {
                     // come back to parent screen
                     parent.refresh();
                     MinecraftClient.getInstance().setScreen(parent);
-                });
+                })
+                        .dimensions(x, 0, 110, 20)
+                        .build();
                 if (key.equals(beforeEdit)) {
                     // yellow tint if matches selected enchant
                     buttonWidget.setBackgroundTint(Color.MC_YELLOW.argb());

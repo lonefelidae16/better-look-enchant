@@ -12,7 +12,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
 @Environment(EnvType.CLIENT)
@@ -29,29 +28,27 @@ public class BetterLookEnchantConfigScreen extends Screen {
     protected void init() {
         // Cancel button
         this.addDrawableChild(
-                new ButtonWidget(this.width / 2 - 154, this.height - 28, 150, 20, ScreenTexts.CANCEL,
-                        (button) -> {
+                ButtonWidget.builder(ScreenTexts.CANCEL, (button) -> {
                             BetterLookEnchantConfig.reload();
                             this.client.setScreen(this.parent);
-                        }
-                )
+                        })
+                        .position(this.width / 2 - 154, this.height - 28)
+                        .build()
         );
 
         // Save button
         this.addDrawableChild(
-                new ButtonWidget(this.width / 2 + 4, this.height - 28, 150, 20,
-                        Text.translatable("text.betterlookenchant.config.save"),
-                        (button) -> {
+                ButtonWidget.builder(Text.translatable("text.betterlookenchant.config.save"), (button) -> {
                             BetterLookEnchantConfig.writeFile(BetterLookEnchantClient.STATE_FILE);
                             this.client.setScreen(this.parent);
-                        }
-                )
+                        })
+                        .position(this.width / 2 + 4, this.height - 28)
+                        .build()
         );
 
         // Restore Default button
-        ColoredButtonWidget restoreDefaultButton = new ColoredButtonWidget(this.width - 120 - 4, 4, 120, 20,
-                Text.translatable("text.betterlookenchant.config.restore_default"),
-                (button) -> {
+        this.addDrawableChild(
+                new ColoredButtonWidget.Builder(Text.translatable("text.betterlookenchant.config.restore_default"), (button) -> {
                     this.client.setScreen(
                             new ConfirmScreen(
                                     bool -> {
@@ -64,11 +61,12 @@ public class BetterLookEnchantConfigScreen extends Screen {
                                     Text.translatable("text.betterlookenchant.config.restore.confirmation")
                             )
                     );
-                }
+                })
+                        .textColor(0xFF9090)
+                        .backgroundTint(Color.MC_DARK_RED.argb())
+                        .dimensions(this.width - 120 - 4, 4, 120, 20)
+                        .build()
         );
-        restoreDefaultButton.setTextFormat(Style.EMPTY.withColor(0xFF9090));
-        restoreDefaultButton.setBackgroundTint(Color.MC_DARK_RED.argb());
-        this.addDrawableChild(restoreDefaultButton);
 
         this.textFormatListWidget = new TextFormatListWidget(this.client, this.width, this.height, 32, this.height - 36, 62, this);
         this.addSelectableChild(this.textFormatListWidget);
