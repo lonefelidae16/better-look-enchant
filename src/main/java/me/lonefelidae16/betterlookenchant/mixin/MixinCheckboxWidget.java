@@ -1,7 +1,7 @@
-package me.lonefelidae16.betterlookenchant.compat.modmenu.mixin;
+package me.lonefelidae16.betterlookenchant.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.lonefelidae16.betterlookenchant.gui.Color;
+import me.lonefelidae16.betterlookenchant.client.gui.Color;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.text.Text;
@@ -25,7 +25,7 @@ public abstract class MixinCheckboxWidget extends PressableWidget {
      */
     @Redirect(
             method = "renderButton(Lnet/minecraft/client/util/math/MatrixStack;IIF)V",
-            at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V")
+            at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V", ordinal = 0)
     )
     private void betterLookEnchant$setShaderColor(float red, float green, float blue, float alpha) {
         if (!this.active) {

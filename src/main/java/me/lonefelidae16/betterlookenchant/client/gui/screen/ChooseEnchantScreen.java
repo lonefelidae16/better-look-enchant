@@ -1,10 +1,10 @@
-package me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.screen;
+package me.lonefelidae16.betterlookenchant.client.gui.screen;
 
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantConfig;
-import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.widget.ListWidgetEntryBase;
-import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.widget.OffsetButtonWidget;
-import me.lonefelidae16.betterlookenchant.gui.Color;
-import me.lonefelidae16.betterlookenchant.gui.TextFormat;
+import me.lonefelidae16.betterlookenchant.client.gui.widget.CustomElementListWidgetBase;
+import me.lonefelidae16.betterlookenchant.client.gui.widget.OffsetButtonWidget;
+import me.lonefelidae16.betterlookenchant.client.gui.Color;
+import me.lonefelidae16.betterlookenchant.client.gui.TextFormat;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -53,7 +53,7 @@ public class ChooseEnchantScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
         this.listWidget.render(matrices, mouseX, mouseY, delta);
-        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 8, Color.WHITE.argb());
+        drawCenteredTextWithShadow(matrices, this.textRenderer, this.title, this.width / 2, 8, Color.WHITE.argb());
         super.render(matrices, mouseX, mouseY, delta);
     }
 
@@ -62,15 +62,11 @@ public class ChooseEnchantScreen extends Screen {
             super(client, width, height, top, bottom, itemHeight);
 
             // generate a pair of enchant
-            for (int i = 0; i < ChooseEnchantScreen.ALL_ENCHANT_LIST.size(); i += 2) {
+            final int listSize = ChooseEnchantScreen.ALL_ENCHANT_LIST.size();
+            for (int i = 0; i < listSize; i += 2) {
                 Pair<String, String> pair = new Pair<>(null, null);
-                for (int j = 0; j < 2; ++j) {
-                    if ((i + j) % 2 == 0) {
-                        pair.setLeft(ChooseEnchantScreen.ALL_ENCHANT_LIST.get(i + j).getTranslationKey());
-                    } else if ((i + j) < ChooseEnchantScreen.ALL_ENCHANT_LIST.size()) {
-                        pair.setRight(ChooseEnchantScreen.ALL_ENCHANT_LIST.get(i + j).getTranslationKey());
-                    }
-                }
+                pair.setLeft(ChooseEnchantScreen.ALL_ENCHANT_LIST.get(i).getTranslationKey());
+                pair.setRight(i < listSize - 1 ? ChooseEnchantScreen.ALL_ENCHANT_LIST.get(i + 1).getTranslationKey() : null);
                 // add entry
                 this.addEntry(new EnchantButtonEntry(pair, beforeEdit, parent));
             }
@@ -82,7 +78,7 @@ public class ChooseEnchantScreen extends Screen {
         }
     }
 
-    public static class EnchantButtonEntry extends ListWidgetEntryBase<EnchantButtonEntry> {
+    public static class EnchantButtonEntry extends CustomElementListWidgetBase.EntryBase<EnchantButtonEntry> {
         public EnchantButtonEntry(Pair<String, String> aPairOfEnchant, String beforeEdit, BetterLookEnchantConfigScreen parent) {
             super();
 
@@ -127,7 +123,7 @@ public class ChooseEnchantScreen extends Screen {
                     // enchant already exists
                     buttonWidget.active = false;
                 }
-                this.addDrawableChild(buttonWidget);
+                this.addElement(buttonWidget);
             }
         }
     }

@@ -2,8 +2,8 @@ package me.lonefelidae16.betterlookenchant;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import me.lonefelidae16.betterlookenchant.gui.Color;
-import me.lonefelidae16.betterlookenchant.gui.TextFormat;
+import me.lonefelidae16.betterlookenchant.client.gui.Color;
+import me.lonefelidae16.betterlookenchant.client.gui.TextFormat;
 import net.minecraft.enchantment.Enchantments;
 
 import java.io.File;

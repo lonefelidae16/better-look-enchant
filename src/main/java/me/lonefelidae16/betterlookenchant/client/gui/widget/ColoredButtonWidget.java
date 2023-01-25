@@ -1,7 +1,7 @@
-package me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.widget;
+package me.lonefelidae16.betterlookenchant.client.gui.widget;
 
-import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.IColorTint;
-import me.lonefelidae16.betterlookenchant.gui.Color;
+import me.lonefelidae16.betterlookenchant.client.gui.IColorTint;
+import me.lonefelidae16.betterlookenchant.client.gui.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.tooltip.Tooltip;

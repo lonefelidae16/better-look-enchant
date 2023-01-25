@@ -1,22 +1,21 @@
-package me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.widget;
+package me.lonefelidae16.betterlookenchant.client.gui.widget;
 
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantConfig;
-import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.screen.BetterLookEnchantConfigScreen;
-import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.screen.ChooseEnchantScreen;
-import me.lonefelidae16.betterlookenchant.gui.Color;
-import me.lonefelidae16.betterlookenchant.gui.TextFormat;
+import me.lonefelidae16.betterlookenchant.client.gui.screen.BetterLookEnchantConfigScreen;
+import me.lonefelidae16.betterlookenchant.client.gui.screen.ChooseEnchantScreen;
+import me.lonefelidae16.betterlookenchant.client.gui.Color;
+import me.lonefelidae16.betterlookenchant.client.gui.TextFormat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.TextFormatEntry> {
+public class TextFormatListWidget extends CustomElementListWidgetBase<TextFormatListWidget.TextFormatEntry> {
     protected static final String ENTRY_ADD_NEW = "text.betterlookenchant.config.key.add_new";
 
     private static final BetterLookEnchantConfig CONFIG = BetterLookEnchantConfig.getInstance();
@@ -49,15 +48,15 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
 
     }
 
-    @Override
-    public boolean changeFocus(boolean lookForwards) {
-        if (getFocused() == null) {
-            return false;
-        }
-        return getFocused().changeFocus(lookForwards);
-    }
+//    @Override
+//    public boolean changeFocus(boolean lookForwards) {
+//        if (getFocused() == null) {
+//            return false;
+//        }
+//        return getFocused().changeFocus(lookForwards);
+//    }
 
-    public static class TextFormatEntry extends ListWidgetEntryBase<TextFormatEntry> {
+    public static class TextFormatEntry extends CustomElementListWidgetBase.EntryBase<TextFormatEntry> {
         private final String key;
         private final BetterLookEnchantConfigScreen parent;
         private final boolean customEnchant;
@@ -87,7 +86,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                 if (format != null) {
                     this.enchantButton.setTextFormat(format.asStyle());
                 }
-                this.addDrawableChild(this.enchantButton);
+                this.addElement(this.enchantButton);
 
                 if (!this.key.equals(TextFormatListWidget.ENTRY_ADD_NEW)) {
                     // remove enchant entry: Button
@@ -100,7 +99,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                             .tooltip(Tooltip.of(Text.translatable("text.betterlookenchant.config.remove_tooltip")))
                             .build();
                     removeButton.setBackgroundTint(Color.MC_DARK_RED.argb());
-                    this.addDrawableChild(removeButton);
+                    this.addElement(removeButton);
                 }
             }
             if (format != null) {
@@ -123,7 +122,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                     updateEnchantButton();
                 });
                 boldCheckbox.active = this.isEnabled;
-                this.addDrawableChild(boldCheckbox);
+                this.addElement(boldCheckbox);
 
                 // isItalic: Checkbox
                 OffsetCheckboxWidget italicCheckbox = new OffsetCheckboxWidget(
@@ -141,7 +140,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                     updateEnchantButton();
                 });
                 italicCheckbox.active = this.isEnabled;
-                this.addDrawableChild(italicCheckbox);
+                this.addElement(italicCheckbox);
 
                 // isUnderline: Checkbox
                 OffsetCheckboxWidget underlineCheckbox = new OffsetCheckboxWidget(
@@ -159,7 +158,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                     updateEnchantButton();
                 });
                 underlineCheckbox.active = this.isEnabled;
-                this.addDrawableChild(underlineCheckbox);
+                this.addElement(underlineCheckbox);
 
                 // isStrike: Checkbox
                 OffsetCheckboxWidget strikeCheckbox = new OffsetCheckboxWidget(
@@ -177,7 +176,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                     updateEnchantButton();
                 });
                 strikeCheckbox.active = this.isEnabled;
-                this.addDrawableChild(strikeCheckbox);
+                this.addElement(strikeCheckbox);
 
                 // enabled or disabled: Checkbox
                 OffsetCheckboxWidget enabledCheckbox = new OffsetCheckboxWidget(
@@ -200,7 +199,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                     strikeCheckbox.active = bool;
                     this.colorEditor.setEditable(bool);
                 });
-                this.addDrawableChild(enabledCheckbox);
+                this.addElement(enabledCheckbox);
 
                 // colorEditor: TextField
                 String colorString = "";
@@ -221,7 +220,7 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
                     }
                     updateEnchantButton();
                 });
-                this.addDrawableChild(this.colorEditor);
+                this.addElement(this.colorEditor);
             }
         }
 
@@ -242,25 +241,25 @@ public class TextFormatListWidget extends EntryListWidget<TextFormatListWidget.T
             }
             if (!this.key.equals(ENTRY_ADD_NEW)) {
                 int color = (this.isEnabled) ? Color.WHITE.argb() : Color.MC_GRAY.argb();
-                drawCenteredText(
+                drawCenteredTextWithShadow(
                         matrices, font, Text.translatable("text.betterlookenchant.config.bold"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 3 + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color
                 );
-                drawCenteredText(
+                drawCenteredTextWithShadow(
                         matrices, font, Text.translatable("text.betterlookenchant.config.italic"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 2 + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color
                 );
-                drawCenteredText(
+                drawCenteredTextWithShadow(
                         matrices, font, Text.translatable("text.betterlookenchant.config.underline"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 1 + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color
                 );
-                drawCenteredText(
+                drawCenteredTextWithShadow(
                         matrices, font, Text.translatable("text.betterlookenchant.config.strike"),
                         CHECKBOX_MAX_X + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,

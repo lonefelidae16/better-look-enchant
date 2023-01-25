@@ -1,7 +1,7 @@
 package me.lonefelidae16.betterlookenchant.mixin;
 
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantConfig;
-import me.lonefelidae16.betterlookenchant.gui.TextFormat;
+import me.lonefelidae16.betterlookenchant.client.gui.TextFormat;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;

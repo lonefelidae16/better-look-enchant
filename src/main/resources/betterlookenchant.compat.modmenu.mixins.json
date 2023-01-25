@@ -1,9 +1,0 @@
-{
-  "parent": "betterlookenchant.mixins.json",
-  "package": "me.lonefelidae16.betterlookenchant.compat.modmenu.mixin",
-  "plugin": "me.lonefelidae16.betterlookenchant.compat.modmenu.MixinPlugin",
-  "client": [
-    "MixinCheckboxWidget",
-    "MixinClickableWidget"
-  ]
-}

@@ -2,7 +2,7 @@ package me.lonefelidae16.betterlookenchant.compat.modmenu;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.screen.BetterLookEnchantConfigScreen;
+import me.lonefelidae16.betterlookenchant.client.gui.screen.BetterLookEnchantConfigScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 

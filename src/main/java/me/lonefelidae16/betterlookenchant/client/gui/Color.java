@@ -1,4 +1,4 @@
-package me.lonefelidae16.betterlookenchant.gui;
+package me.lonefelidae16.betterlookenchant.client.gui;
 
 public class Color {
     public static final Color WHITE = fromGray(0xff);

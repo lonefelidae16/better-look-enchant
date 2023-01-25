@@ -1,4 +1,4 @@
-package me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui;
+package me.lonefelidae16.betterlookenchant.client.gui;
 
 import net.minecraft.client.util.math.MatrixStack;
 

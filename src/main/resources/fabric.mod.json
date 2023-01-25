@@ -26,12 +26,11 @@
     ]
   },
   "mixins": [
-    "betterlookenchant.mixins.json",
-    "betterlookenchant.compat.modmenu.mixins.json"
+    "betterlookenchant.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.11.0",
+    "fabricloader": "*",
     "minecraft": ">=1.19.1",
     "java": ">=17"
   },

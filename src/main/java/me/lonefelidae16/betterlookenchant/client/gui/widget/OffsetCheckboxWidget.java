@@ -1,6 +1,6 @@
-package me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.widget;
+package me.lonefelidae16.betterlookenchant.client.gui.widget;
 
-import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.IOffsetElement;
+import me.lonefelidae16.betterlookenchant.client.gui.IOffsetElement;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;

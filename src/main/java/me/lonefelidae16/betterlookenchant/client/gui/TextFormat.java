@@ -1,4 +1,4 @@
-package me.lonefelidae16.betterlookenchant.gui;
+package me.lonefelidae16.betterlookenchant.client.gui;
 
 import net.minecraft.text.Style;
 import org.jetbrains.annotations.Nullable;

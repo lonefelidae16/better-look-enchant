@@ -1,18 +1,20 @@
-package me.lonefelidae16.betterlookenchant.compat.modmenu.mixin;
+package me.lonefelidae16.betterlookenchant.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.IColorTint;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
+import me.lonefelidae16.betterlookenchant.client.gui.IColorTint;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.widget.PressableWidget;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(ClickableWidget.class)
-public abstract class MixinClickableWidget extends DrawableHelper implements Drawable, Element, Selectable {
+@Mixin(PressableWidget.class)
+public abstract class MixinPressableWidget extends ClickableWidget {
+    public MixinPressableWidget(int x, int y, int width, int height, Text message) {
+        super(x, y, width, height, message);
+    }
+
     /**
      * enable background color tint which implements IColorTint
      *
@@ -23,7 +25,7 @@ public abstract class MixinClickableWidget extends DrawableHelper implements Dra
      */
     @Redirect(
             method = "renderButton(Lnet/minecraft/client/util/math/MatrixStack;IIF)V",
-            at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V")
+            at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V", ordinal = 0)
     )
     private void betterLookEnchant$setShaderColor(float red, float green, float blue, float alpha) {
         ClickableWidget $this = ClickableWidget.class.cast(this);

@@ -1,10 +1,10 @@
-package me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.screen;
+package me.lonefelidae16.betterlookenchant.client.gui.screen;
 
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantClient;
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantConfig;
-import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.widget.ColoredButtonWidget;
-import me.lonefelidae16.betterlookenchant.compat.modmenu.client.gui.widget.TextFormatListWidget;
-import me.lonefelidae16.betterlookenchant.gui.Color;
+import me.lonefelidae16.betterlookenchant.client.gui.widget.ColoredButtonWidget;
+import me.lonefelidae16.betterlookenchant.client.gui.widget.TextFormatListWidget;
+import me.lonefelidae16.betterlookenchant.client.gui.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ConfirmScreen;
@@ -76,7 +76,7 @@ public class BetterLookEnchantConfigScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
         this.textFormatListWidget.render(matrices, mouseX, mouseY, delta);
-        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 12, Color.WHITE.argb());
+        drawCenteredTextWithShadow(matrices, this.textRenderer, this.title, this.width / 2, 12, Color.WHITE.argb());
         super.render(matrices, mouseX, mouseY, delta);
     }
 
