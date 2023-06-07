@@ -1,15 +1,15 @@
 package me.lonefelidae16.betterlookenchant.client.gui.widget;
 
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantConfig;
-import me.lonefelidae16.betterlookenchant.client.gui.screen.BetterLookEnchantConfigScreen;
-import me.lonefelidae16.betterlookenchant.client.gui.screen.ChooseEnchantScreen;
 import me.lonefelidae16.betterlookenchant.client.gui.Color;
 import me.lonefelidae16.betterlookenchant.client.gui.TextFormat;
+import me.lonefelidae16.betterlookenchant.client.gui.screen.BetterLookEnchantConfigScreen;
+import me.lonefelidae16.betterlookenchant.client.gui.screen.ChooseEnchantScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -232,35 +232,35 @@ public class TextFormatListWidget extends CustomElementListWidgetBase<TextFormat
         }
 
         @Override
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            super.render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
-            TextRenderer font = MinecraftClient.getInstance().textRenderer;
+        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
+            TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
             if (!this.customEnchant) {
                 MutableText text = Text.translatable(this.key).setStyle(TextFormatListWidget.CONFIG.customFormats.getOrDefault(this.key, TextFormat.EMPTY).asStyle());
-                font.drawWithShadow(matrices, text, x, 4 + y, Color.fromHexString(this.colorEditor.getText()).argb());
+                context.drawCenteredTextWithShadow(textRenderer, text, x, 4 + y, Color.fromHexString(this.colorEditor.getText()).argb());
             }
             if (!this.key.equals(ENTRY_ADD_NEW)) {
                 int color = (this.isEnabled) ? Color.WHITE.argb() : Color.MC_GRAY.argb();
-                drawCenteredTextWithShadow(
-                        matrices, font, Text.translatable("text.betterlookenchant.config.bold"),
+                context.drawCenteredTextWithShadow(
+                        textRenderer, Text.translatable("text.betterlookenchant.config.bold"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 3 + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color
                 );
-                drawCenteredTextWithShadow(
-                        matrices, font, Text.translatable("text.betterlookenchant.config.italic"),
+                context.drawCenteredTextWithShadow(
+                        textRenderer, Text.translatable("text.betterlookenchant.config.italic"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 2 + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color
                 );
-                drawCenteredTextWithShadow(
-                        matrices, font, Text.translatable("text.betterlookenchant.config.underline"),
+                context.drawCenteredTextWithShadow(
+                        textRenderer, Text.translatable("text.betterlookenchant.config.underline"),
                         CHECKBOX_MAX_X - (CHECKBOX_MARGIN + DEFAULT_ELEMENT_WIDTH) * 1 + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color
                 );
-                drawCenteredTextWithShadow(
-                        matrices, font, Text.translatable("text.betterlookenchant.config.strike"),
+                context.drawCenteredTextWithShadow(
+                        textRenderer, Text.translatable("text.betterlookenchant.config.strike"),
                         CHECKBOX_MAX_X + DEFAULT_ELEMENT_WIDTH / 2 + x,
                         44 + y,
                         color

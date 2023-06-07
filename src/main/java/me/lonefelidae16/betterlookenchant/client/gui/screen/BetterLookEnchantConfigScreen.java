@@ -2,15 +2,15 @@ package me.lonefelidae16.betterlookenchant.client.gui.screen;
 
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantClient;
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantConfig;
+import me.lonefelidae16.betterlookenchant.client.gui.Color;
 import me.lonefelidae16.betterlookenchant.client.gui.widget.ColoredButtonWidget;
 import me.lonefelidae16.betterlookenchant.client.gui.widget.TextFormatListWidget;
-import me.lonefelidae16.betterlookenchant.client.gui.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 
@@ -73,11 +73,11 @@ public class BetterLookEnchantConfigScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        this.textFormatListWidget.render(matrices, mouseX, mouseY, delta);
-        drawCenteredTextWithShadow(matrices, this.textRenderer, this.title, this.width / 2, 12, Color.WHITE.argb());
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.renderBackground(context);
+        this.textFormatListWidget.render(context, mouseX, mouseY, delta);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 12, Color.WHITE.argb());
+        super.render(context, mouseX, mouseY, delta);
     }
 
     public void refresh() {

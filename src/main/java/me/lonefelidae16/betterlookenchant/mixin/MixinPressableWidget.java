@@ -2,12 +2,14 @@ package me.lonefelidae16.betterlookenchant.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.lonefelidae16.betterlookenchant.client.gui.IColorTint;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PressableWidget.class)
 public abstract class MixinPressableWidget extends ClickableWidget {
@@ -16,19 +18,14 @@ public abstract class MixinPressableWidget extends ClickableWidget {
     }
 
     /**
-     * enable background color tint which implements IColorTint
-     *
-     * @param red   original red
-     * @param green original green
-     * @param blue  original blue
-     * @param alpha original alpha
+     * enable background color tint which implements {@link IColorTint}
      */
-    @Redirect(
-            method = "renderButton(Lnet/minecraft/client/util/math/MatrixStack;IIF)V",
-            at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V", ordinal = 0)
+    @Inject(
+            method = "renderButton(Lnet/minecraft/client/gui/DrawContext;IIF)V",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawNineSlicedTexture(Lnet/minecraft/util/Identifier;IIIIIIIIII)V", ordinal = 0)
     )
-    private void betterLookEnchant$setShaderColor(float red, float green, float blue, float alpha) {
-        ClickableWidget $this = ClickableWidget.class.cast(this);
+    private void betterLookEnchant$changeShaderColor(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        PressableWidget $this = PressableWidget.class.cast(this);
         if ($this instanceof IColorTint) {
             IColorTint iColorTint = (IColorTint) $this;
             int color = iColorTint.getBackgroundColor();
@@ -37,8 +34,6 @@ public abstract class MixinPressableWidget extends ClickableWidget {
             float g = (color >> 8 & 0xff) / 255.0F;
             float b = (color & 0xff) / 255.0F;
             RenderSystem.setShaderColor(r, g, b, a);
-        } else {
-            RenderSystem.setShaderColor(red, green, blue, alpha);
         }
     }
 }

@@ -2,8 +2,8 @@ package me.lonefelidae16.betterlookenchant.client.gui.widget;
 
 import me.lonefelidae16.betterlookenchant.client.gui.IOffsetElement;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 public class OffsetTextFieldWidget extends TextFieldWidget implements IOffsetElement {
@@ -17,9 +17,9 @@ public class OffsetTextFieldWidget extends TextFieldWidget implements IOffsetEle
     }
 
     @Override
-    public void render(int x, int y, MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(int x, int y, DrawContext context, int mouseX, int mouseY, float delta) {
         this.setX(x + this.offsetX);
         this.setY(y + this.offsetY);
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
     }
 }

@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.1-SNAPSHOT'
+    id 'fabric-loom' version '1.2-SNAPSHOT'
     id 'maven-publish'
     id 'com.jfrog.artifactory' version '4.31.5'
 }
@@ -10,7 +10,7 @@ sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
-version = "${project.mod_version}+${minecraft_version}" as Object
+version = "${project.mod_version}+${minecraft_version}"
 group = project.maven_group
 
 repositories {
@@ -44,7 +44,7 @@ dependencies {
     // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 
     modCompileOnly "com.terraformersmc:modmenu:${mod_menu_version}"
-    modRuntimeOnly "com.terraformersmc:modmenu:${mod_menu_version}"
+//    modRuntimeOnly "com.terraformersmc:modmenu:${mod_menu_version}"
 }
 
 processResources {

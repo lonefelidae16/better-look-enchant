@@ -1,18 +1,18 @@
 package me.lonefelidae16.betterlookenchant.client.gui.screen;
 
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantConfig;
-import me.lonefelidae16.betterlookenchant.client.gui.widget.CustomElementListWidgetBase;
-import me.lonefelidae16.betterlookenchant.client.gui.widget.OffsetButtonWidget;
 import me.lonefelidae16.betterlookenchant.client.gui.Color;
 import me.lonefelidae16.betterlookenchant.client.gui.TextFormat;
+import me.lonefelidae16.betterlookenchant.client.gui.widget.CustomElementListWidgetBase;
+import me.lonefelidae16.betterlookenchant.client.gui.widget.OffsetButtonWidget;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenTexts;
@@ -50,11 +50,11 @@ public class ChooseEnchantScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        this.listWidget.render(matrices, mouseX, mouseY, delta);
-        drawCenteredTextWithShadow(matrices, this.textRenderer, this.title, this.width / 2, 8, Color.WHITE.argb());
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.renderBackground(context);
+        this.listWidget.render(context, mouseX, mouseY, delta);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 8, Color.WHITE.argb());
+        super.render(context, mouseX, mouseY, delta);
     }
 
     public static class EnchantButtonListWidget extends EntryListWidget<EnchantButtonEntry> {

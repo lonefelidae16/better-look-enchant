@@ -1,12 +1,12 @@
 package me.lonefelidae16.betterlookenchant.client.gui.widget;
 
-import me.lonefelidae16.betterlookenchant.client.gui.IOffsetElement;
 import me.lonefelidae16.betterlookenchant.client.gui.Color;
+import me.lonefelidae16.betterlookenchant.client.gui.IOffsetElement;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -85,9 +85,9 @@ public class OffsetButtonWidget extends ColoredButtonWidget implements IOffsetEl
     }
 
     @Override
-    public void render(int x, int y, MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(int x, int y, DrawContext context, int mouseX, int mouseY, float delta) {
         this.setX(x + this.offsetX);
         this.setY(y + this.offsetY);
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
     }
 }
