@@ -17,12 +17,8 @@ public abstract class MixinEnchantment {
         final Enchantment $this = Enchantment.class.cast(this);
         final MutableText text = cir.getReturnValue();
         final BetterLookEnchantConfig config = BetterLookEnchantConfig.getInstance();
-        final TextFormat defaultFontFormat = (config.enabledEnchants.contains(BetterLookEnchantConfig.ENTRY_KEY_DEFAULT_FORMAT)) ?
-                config.customFormats.getOrDefault(BetterLookEnchantConfig.ENTRY_KEY_DEFAULT_FORMAT, TextFormat.EMPTY) :
-                TextFormat.EMPTY;
-        final TextFormat defaultLvMaxFormat = (config.enabledEnchants.contains(BetterLookEnchantConfig.ENTRY_KEY_LV_MAX_FORMAT)) ?
-                config.customFormats.getOrDefault(BetterLookEnchantConfig.ENTRY_KEY_LV_MAX_FORMAT, TextFormat.EMPTY) :
-                TextFormat.EMPTY;
+        final TextFormat defaultFontFormat = config.customFormats.getOrDefault(BetterLookEnchantConfig.ENTRY_KEY_DEFAULT_FORMAT, TextFormat.EMPTY);
+        final TextFormat defaultLvMaxFormat = config.customFormats.getOrDefault(BetterLookEnchantConfig.ENTRY_KEY_LV_MAX_FORMAT, TextFormat.EMPTY);
 
         // set custom style
         if (!defaultFontFormat.isEmpty()) {

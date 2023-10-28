@@ -22,4 +22,10 @@ public class OffsetTextFieldWidget extends TextFieldWidget implements IOffsetEle
         this.setY(y + this.offsetY);
         super.render(context, mouseX, mouseY, delta);
     }
+
+    @Override
+    public void onClick(double mouseX, double mouseY) {
+        this.setFocused(true);
+        super.onClick(mouseX, mouseY);
+    }
 }

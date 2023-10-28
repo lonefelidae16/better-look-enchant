@@ -1,17 +1,19 @@
 plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id 'fabric-loom' version '1.4-SNAPSHOT'
     id 'maven-publish'
-    id 'com.jfrog.artifactory' version '4.31.5'
+    id 'com.jfrog.artifactory' version '4.33.1'
 }
 
 apply from: 'https://gitlab.kow08absty.com/-/snippets/1/raw/main/properties-reader.gradle'
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+var targetJdk = 8
 
-archivesBaseName = project.archives_base_name
 version = "${project.mod_version}+${minecraft_version}"
 group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
 
 repositories {
     // Add repositories to retrieve artifacts from in here.
@@ -44,7 +46,8 @@ dependencies {
     // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 
     modCompileOnly "com.terraformersmc:modmenu:${mod_menu_version}"
-//    modRuntimeOnly "com.terraformersmc:modmenu:${mod_menu_version}"
+    modRuntimeOnly "com.terraformersmc:modmenu:${mod_menu_version}"
+    modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
 processResources {
@@ -57,7 +60,7 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
     // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-    it.options.release.set(Integer.parseInt(targetCompatibility))
+    it.options.release.set(targetJdk)
 }
 
 java {
@@ -65,11 +68,14 @@ java {
     // if it is present.
     // If you remove this line, sources will not be generated.
     withSourcesJar()
+
+    sourceCompatibility = JavaVersion.toVersion(targetJdk)
+    targetCompatibility = JavaVersion.toVersion(targetJdk)
 }
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_${base.archivesName}" }
     }
     exclude("**/*.xcf")
 }

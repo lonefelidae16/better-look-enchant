@@ -63,7 +63,7 @@ public class Color {
         int decoded = Color.WHITE.argb;
         try {
             decoded = Integer.decode(hex);
-        } catch (Throwable ignore) {
+        } catch (NumberFormatException ignore) {
         }
         return Color.fromARGB(decoded);
     }
@@ -89,7 +89,7 @@ public class Color {
     }
 
     public String asHexString() {
-        if (this.alpha() < 0xFF) {
+        if (this.alpha() < 0xFF && this.alpha() > 0) {
             return String.format("%02X%02X%02X%02X", this.alpha(), this.red(), this.green(), this.blue());
         }
         return String.format("%02X%02X%02X", this.red(), this.green(), this.blue());

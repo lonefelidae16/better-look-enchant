@@ -7,6 +7,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +113,14 @@ public abstract class CustomElementListWidgetBase<E extends CustomElementListWid
             return this.elements.stream()
                     .filter(Objects::nonNull)
                     .anyMatch(element -> element.mouseDragged(mouseX, mouseY, button, deltaX, deltaY));
+        }
+
+        @Override
+        public void setFocused(@Nullable Element focused) {
+            this.elements.stream()
+                    .filter(Objects::nonNull)
+                    .forEach(element -> element.setFocused(false));
+            super.setFocused(focused);
         }
     }
 }

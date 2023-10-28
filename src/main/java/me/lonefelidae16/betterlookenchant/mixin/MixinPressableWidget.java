@@ -22,7 +22,7 @@ public abstract class MixinPressableWidget extends ClickableWidget {
      */
     @Inject(
             method = "renderButton(Lnet/minecraft/client/gui/DrawContext;IIF)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawNineSlicedTexture(Lnet/minecraft/util/Identifier;IIIIIIIIII)V", ordinal = 0)
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0)
     )
     private void betterLookEnchant$changeShaderColor(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         PressableWidget $this = PressableWidget.class.cast(this);

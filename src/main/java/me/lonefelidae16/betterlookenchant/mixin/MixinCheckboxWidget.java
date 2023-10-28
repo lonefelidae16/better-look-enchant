@@ -22,7 +22,7 @@ public abstract class MixinCheckboxWidget extends PressableWidget {
      */
     @Inject(
             method = "renderButton(Lnet/minecraft/client/gui/DrawContext;IIF)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIFFIIII)V", ordinal = 0)
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0)
     )
     private void betterLookEnchant$changeShaderColor(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (!this.active) {

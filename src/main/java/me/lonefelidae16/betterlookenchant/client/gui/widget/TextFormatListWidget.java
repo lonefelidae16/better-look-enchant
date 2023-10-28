@@ -48,14 +48,6 @@ public class TextFormatListWidget extends CustomElementListWidgetBase<TextFormat
 
     }
 
-//    @Override
-//    public boolean changeFocus(boolean lookForwards) {
-//        if (getFocused() == null) {
-//            return false;
-//        }
-//        return getFocused().changeFocus(lookForwards);
-//    }
-
     public static class TextFormatEntry extends CustomElementListWidgetBase.EntryBase<TextFormatEntry> {
         private final String key;
         private final BetterLookEnchantConfigScreen parent;
@@ -237,7 +229,7 @@ public class TextFormatListWidget extends CustomElementListWidgetBase<TextFormat
             TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
             if (!this.customEnchant) {
                 MutableText text = Text.translatable(this.key).setStyle(TextFormatListWidget.CONFIG.customFormats.getOrDefault(this.key, TextFormat.EMPTY).asStyle());
-                context.drawCenteredTextWithShadow(textRenderer, text, x, 4 + y, Color.fromHexString(this.colorEditor.getText()).argb());
+                context.drawTextWithShadow(textRenderer, text, x, 4 + y, Color.fromHexString(this.colorEditor.getText()).argb());
             }
             if (!this.key.equals(ENTRY_ADD_NEW)) {
                 int color = (this.isEnabled) ? Color.WHITE.argb() : Color.MC_GRAY.argb();

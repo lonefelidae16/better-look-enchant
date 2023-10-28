@@ -51,10 +51,9 @@ public class ChooseEnchantScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
+        super.render(context, mouseX, mouseY, delta);
         this.listWidget.render(context, mouseX, mouseY, delta);
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 8, Color.WHITE.argb());
-        super.render(context, mouseX, mouseY, delta);
     }
 
     public static class EnchantButtonListWidget extends EntryListWidget<EnchantButtonEntry> {

@@ -74,10 +74,9 @@ public class BetterLookEnchantConfigScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
+        super.render(context, mouseX, mouseY, delta);
         this.textFormatListWidget.render(context, mouseX, mouseY, delta);
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 12, Color.WHITE.argb());
-        super.render(context, mouseX, mouseY, delta);
     }
 
     public void refresh() {
