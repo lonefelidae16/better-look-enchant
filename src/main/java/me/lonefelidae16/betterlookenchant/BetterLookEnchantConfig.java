@@ -22,30 +22,30 @@ public class BetterLookEnchantConfig {
     public static final String ENTRY_KEY_DEFAULT_FORMAT = "text.betterlookenchant.config.key.default_format";
     public static final String ENTRY_KEY_LV_MAX_FORMAT = "text.betterlookenchant.config.key.lv_max_format";
 
-    private static final BetterLookEnchantConfig instance;
+    private static final BetterLookEnchantConfig CONFIG;
 
     static {
-        instance = BetterLookEnchantConfig.readFile(BetterLookEnchantClient.STATE_FILE);
+        CONFIG = BetterLookEnchantConfig.readFile(BetterLookEnchantClient.STATE_FILE);
     }
 
     private BetterLookEnchantConfig() {
         // set up defaults
         enabledEnchants = new ArrayList<>();
         enabledEnchants.add(ENTRY_KEY_LV_MAX_FORMAT);
-        enabledEnchants.add(Enchantments.MENDING.getTranslationKey());
-        enabledEnchants.add(Enchantments.INFINITY.getTranslationKey());
+        enabledEnchants.add(Enchantments.MENDING.getValue().toString());
+        enabledEnchants.add(Enchantments.INFINITY.getValue().toString());
         customFormats = new HashMap<>();
         customFormats.put(ENTRY_KEY_LV_MAX_FORMAT, new TextFormat(Color.MC_GREEN.argb()));
-        customFormats.put(Enchantments.MENDING.getTranslationKey(), new TextFormat(Color.MC_GOLD.argb()));
-        customFormats.put(Enchantments.INFINITY.getTranslationKey(), new TextFormat(Color.MC_LIGHT_PURPLE.argb()));
+        customFormats.put(Enchantments.MENDING.getValue().toString(), new TextFormat(Color.MC_GOLD.argb()));
+        customFormats.put(Enchantments.INFINITY.getValue().toString(), new TextFormat(Color.MC_LIGHT_PURPLE.argb()));
     }
 
     public static void reload() {
-        instance.from(BetterLookEnchantConfig.readFile(BetterLookEnchantClient.STATE_FILE));
+        CONFIG.from(BetterLookEnchantConfig.readFile(BetterLookEnchantClient.STATE_FILE));
     }
 
     public static void restoreDefault() {
-        instance.from(new BetterLookEnchantConfig());
+        CONFIG.from(new BetterLookEnchantConfig());
     }
 
     private void from(BetterLookEnchantConfig other) {
@@ -62,8 +62,8 @@ public class BetterLookEnchantConfig {
         }
     }
 
-    public static BetterLookEnchantConfig getInstance() {
-        return instance;
+    public static BetterLookEnchantConfig getConfig() {
+        return CONFIG;
     }
 
     public static void writeFile(File destination) {
@@ -72,7 +72,7 @@ public class BetterLookEnchantConfig {
         }
 
         try (FileWriter writer = new FileWriter(destination)) {
-            writer.write(new Gson().toJson(instance));
+            writer.write(new Gson().toJson(CONFIG));
             writer.flush();
         } catch (IOException ex) {
             BetterLookEnchantClient.LOGGER.error("Could not write to file", ex);
@@ -87,7 +87,8 @@ public class BetterLookEnchantConfig {
         try (FileReader reader = new FileReader(destination)) {
             BetterLookEnchantConfig loaded = new Gson().fromJson(reader, BetterLookEnchantConfig.class);
             if (loaded == null) {
-                throw new JsonParseException("The result is null");
+                BetterLookEnchantClient.LOGGER.error("Gson#fromJson returns null", new JsonParseException("null"));
+                return new BetterLookEnchantConfig();
             }
             return loaded;
         } catch (IOException ex) {

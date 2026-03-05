@@ -1,6 +1,8 @@
 package me.lonefelidae16.betterlookenchant.client.gui;
 
 import net.minecraft.text.Style;
+import net.minecraft.text.TextColor;
+import net.minecraft.util.Colors;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -48,11 +50,7 @@ public final class TextFormat {
     }
 
     public Style asStyle() {
-        Style result = Style.EMPTY;
-        if (this.color != null) {
-            result = result.withColor(this.color);
-        }
-        return result
+        return Style.EMPTY.withColor(Objects.requireNonNullElse(this.color, Colors.WHITE))
                 .withBold(this.isBold)
                 .withItalic(this.isItalic)
                 .withUnderline(this.isUnderline)

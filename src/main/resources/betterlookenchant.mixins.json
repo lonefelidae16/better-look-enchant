@@ -4,9 +4,7 @@
   "package": "me.lonefelidae16.betterlookenchant.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "MixinCheckboxWidget",
-    "MixinPressableWidget",
-    "MixinEnchantment"
+    "EnchantmentMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -11,7 +11,7 @@ import java.io.File;
 
 @Environment(EnvType.CLIENT)
 public class BetterLookEnchantClient implements ClientModInitializer {
-    public static final String MOD_ID = "betterlookenchant";
+    public static final String MOD_ID = "better-look-enchant";
     public static final Logger LOGGER = LoggerFactory.getLogger(BetterLookEnchantClient.class);
     public static final File STATE_FILE = FabricLoader.getInstance().getConfigDir().resolve(BetterLookEnchantClient.MOD_ID + ".json").toFile();
 

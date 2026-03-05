@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "betterlookenchant",
+  "id": "better-look-enchant",
   "version": "${version}",
 
   "name": "Better Look Enchant",
@@ -26,13 +26,16 @@
     ]
   },
   "mixins": [
-    "betterlookenchant.mixins.json"
+    {
+      "config": "betterlookenchant.mixins.json",
+      "environment": "client"
+    }
   ],
 
   "depends": {
-    "fabricloader": "*",
-    "minecraft": "~1.20.2",
-    "java": ">=17"
+    "fabricloader": ">=0.15",
+    "minecraft": "*",
+    "java": ">=21"
   },
   "suggests": {
   }
