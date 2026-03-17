@@ -88,8 +88,10 @@ public class TextFormatListWidget extends CustomElementListWidgetBase<TextFormat
                 return;
             }
 
-            int idx = TextFormatListWidget.CONFIG.enabledEnchants.indexOf(this.beforeEdit);
-            if (idx == -1) {
+            final int idx;
+            if (TextFormatListWidget.CONFIG.enabledEnchants.contains(this.beforeEdit)) {
+                idx = TextFormatListWidget.CONFIG.enabledEnchants.indexOf(this.beforeEdit);
+            } else {
                 idx = TextFormatListWidget.CONFIG.enabledEnchants.size();
             }
             // replace
