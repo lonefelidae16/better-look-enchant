@@ -5,21 +5,21 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantClient;
 import me.lonefelidae16.betterlookenchant.BetterLookEnchantConfig;
 import me.lonefelidae16.betterlookenchant.client.gui.TextFormat;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.EnchantmentTags;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.world.item.enchantment.Enchantment;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(Enchantment.class)
 public abstract class EnchantmentMixin {
-    @WrapMethod(method = "getName(Lnet/minecraft/registry/entry/RegistryEntry;I)Lnet/minecraft/text/Text;")
-    private static Text betterLookEnchant$formatted(RegistryEntry<Enchantment> registryEntry, int level, Operation<Text> original) {
+    @WrapMethod(method = "getFullname(Lnet/minecraft/core/Holder;I)Lnet/minecraft/network/chat/Component;")
+    private static Component betterLookEnchant$formatted(Holder<Enchantment> registryEntry, int level, Operation<Component> original) {
         final Enchantment enchantment = registryEntry.value();
-        final boolean bCursed = registryEntry.isIn(EnchantmentTags.CURSE);
-        final MutableText text = (MutableText) original.call(registryEntry, level);
+        final boolean bCursed = registryEntry.is(EnchantmentTags.CURSE);
+        final MutableComponent text = (MutableComponent) original.call(registryEntry, level);
         final BetterLookEnchantConfig config = BetterLookEnchantConfig.getConfig();
         final TextFormat defaultFontFormat = config.customFormats.getOrDefault(BetterLookEnchantConfig.ENTRY_KEY_DEFAULT_FORMAT, TextFormat.EMPTY);
         final TextFormat defaultLvMaxFormat = config.customFormats.getOrDefault(BetterLookEnchantConfig.ENTRY_KEY_LV_MAX_FORMAT, TextFormat.EMPTY);
@@ -36,9 +36,9 @@ public abstract class EnchantmentMixin {
                 text.setStyle(defaultLvMaxFormat.asStyle());
             }
 
-            final var optionalKey = registryEntry.getKey();
+            final var optionalKey = registryEntry.unwrapKey();
             optionalKey.ifPresentOrElse(key -> {
-                final String k = key.getValue().toString();
+                final String k = key.identifier().toString();
                 // search and apply specified style that matches this enchant
                 if (config.enabledEnchants.contains(k)) {
                     TextFormat format = config.customFormats.getOrDefault(k, TextFormat.EMPTY);
@@ -49,7 +49,7 @@ public abstract class EnchantmentMixin {
             }, () -> BetterLookEnchantClient.LOGGER.error("RegistryKey is empty"));
         } else if (enchantment.getMaxLevel() < level) {
             // was it generated from command?
-            text.formatted(Formatting.DARK_RED).formatted(Formatting.ITALIC);
+            text.withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.ITALIC);
         }
 
         return text;

@@ -1,11 +1,10 @@
 package me.lonefelidae16.betterlookenchant.client.gui;
 
-import net.minecraft.text.Style;
-import net.minecraft.text.TextColor;
-import net.minecraft.util.Colors;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.CommonColors;
 
 public final class TextFormat {
     private final Integer color;
@@ -50,10 +49,10 @@ public final class TextFormat {
     }
 
     public Style asStyle() {
-        return Style.EMPTY.withColor(Objects.requireNonNullElse(this.color, Colors.WHITE))
+        return Style.EMPTY.withColor(Objects.requireNonNullElse(this.color, CommonColors.WHITE))
                 .withBold(this.isBold)
                 .withItalic(this.isItalic)
-                .withUnderline(this.isUnderline)
+                .withUnderlined(this.isUnderline)
                 .withStrikethrough(this.isStrike);
     }
 

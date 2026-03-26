@@ -4,8 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import me.lonefelidae16.betterlookenchant.client.gui.Color;
 import me.lonefelidae16.betterlookenchant.client.gui.TextFormat;
-import net.minecraft.enchantment.Enchantments;
-
+import net.minecraft.world.item.enchantment.Enchantments;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -32,12 +31,12 @@ public class BetterLookEnchantConfig {
         // set up defaults
         enabledEnchants = new ArrayList<>();
         enabledEnchants.add(ENTRY_KEY_LV_MAX_FORMAT);
-        enabledEnchants.add(Enchantments.MENDING.getValue().toString());
-        enabledEnchants.add(Enchantments.INFINITY.getValue().toString());
+        enabledEnchants.add(Enchantments.MENDING.identifier().toString());
+        enabledEnchants.add(Enchantments.INFINITY.identifier().toString());
         customFormats = new HashMap<>();
         customFormats.put(ENTRY_KEY_LV_MAX_FORMAT, new TextFormat(Color.MC_GREEN.argb()));
-        customFormats.put(Enchantments.MENDING.getValue().toString(), new TextFormat(Color.MC_GOLD.argb()));
-        customFormats.put(Enchantments.INFINITY.getValue().toString(), new TextFormat(Color.MC_LIGHT_PURPLE.argb()));
+        customFormats.put(Enchantments.MENDING.identifier().toString(), new TextFormat(Color.MC_GOLD.argb()));
+        customFormats.put(Enchantments.INFINITY.identifier().toString(), new TextFormat(Color.MC_LIGHT_PURPLE.argb()));
     }
 
     public static void reload() {

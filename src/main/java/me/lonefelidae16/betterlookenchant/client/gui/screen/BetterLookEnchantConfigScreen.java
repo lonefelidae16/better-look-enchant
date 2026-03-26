@@ -5,19 +5,19 @@ import me.lonefelidae16.betterlookenchant.BetterLookEnchantConfig;
 import me.lonefelidae16.betterlookenchant.client.gui.widget.TextFormatListWidget;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
-import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
+import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
 
 @Environment(EnvType.CLIENT)
 public class BetterLookEnchantConfigScreen extends Screen {
-    private static final Text TITLE_TEXT = Text.translatable("text.betterlookenchant.config.title");
+    private static final Component TITLE_TEXT = Component.translatable("text.betterlookenchant.config.title");
 
     private final Screen parent;
-    public final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
+    public final HeaderAndFooterLayout layout = new HeaderAndFooterLayout(this);
     private TextFormatListWidget list;
 
     public BetterLookEnchantConfigScreen(Screen parent) {
@@ -27,41 +27,41 @@ public class BetterLookEnchantConfigScreen extends Screen {
 
     @Override
     protected void init() {
-        this.layout.addHeader(TITLE_TEXT, this.textRenderer);
+        this.layout.addTitleHeader(TITLE_TEXT, this.font);
 
-        this.list = new TextFormatListWidget(this.client, this.width, this);
-        this.layout.addBody(this.list);
+        this.list = new TextFormatListWidget(this.minecraft, this.width, this);
+        this.layout.addToContents(this.list);
 
-        DirectionalLayoutWidget footer = DirectionalLayoutWidget.horizontal().spacing(8);
-        footer.add(
-                ButtonWidget.builder(ScreenTexts.CANCEL, (button) -> {
+        LinearLayout footer = LinearLayout.horizontal().spacing(8);
+        footer.addChild(
+                Button.builder(CommonComponents.GUI_CANCEL, (button) -> {
                             BetterLookEnchantConfig.reload();
-                            this.close();
+                            this.onClose();
                         })
                         .build()
         );
-        footer.add(
-                ButtonWidget.builder(Text.translatable("text.betterlookenchant.config.save"), (button) -> {
+        footer.addChild(
+                Button.builder(Component.translatable("text.betterlookenchant.config.save"), (button) -> {
                             BetterLookEnchantConfig.writeFile(BetterLookEnchantClient.STATE_FILE);
-                            this.close();
+                            this.onClose();
                         })
                         .build()
         );
-        this.layout.addFooter(footer);
+        this.layout.addToFooter(footer);
 
-        this.layout.refreshPositions();
-        this.layout.forEachChild(this::addDrawableChild);
+        this.layout.arrangeElements();
+        this.layout.visitWidgets(this::addRenderableWidget);
     }
 
     @Override
-    protected void refreshWidgetPositions() {
-        this.layout.refreshPositions();
-        this.list.position(this.width, this.layout);
+    protected void repositionElements() {
+        this.layout.arrangeElements();
+        this.list.updateSize(this.width, this.layout);
     }
 
     public void refresh() {
         this.list.visible = false;
-        this.clearChildren();
+        this.clearWidgets();
         this.init();
     }
 }
